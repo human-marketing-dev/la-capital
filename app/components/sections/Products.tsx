@@ -55,7 +55,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           position: "relative",
           aspectRatio: "16 / 10",
           borderBottom: "1.5px solid var(--gray-200)",
-          background: "var(--gray-50)",
+          background: "#fff",
         }}
       >
         <Image
@@ -63,7 +63,11 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           alt={title}
           fill
           sizes="(max-width: 600px) 100vw, (max-width: 920px) 50vw, 33vw"
-          style={{ objectFit: "cover", objectPosition: objectPosition ?? "center" }}
+          style={{
+            objectFit: "contain",
+            objectPosition: objectPosition ?? "center",
+            padding: 18,
+          }}
         />
       </div>
       <div style={{ padding: 24 }}>

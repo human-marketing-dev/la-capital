@@ -1,11 +1,9 @@
 import Image from "next/image";
 
-/* Institutional social proof — auto-scrolling grayscale logo marquee.
-   PLACEHOLDER set: 6 client logos in /public (black on transparent). The track
-   renders the set twice so the CSS animation loops seamlessly at -50%.
-   PENDING from client: final logos + written authorization to display each
-   brand. With <8 logos a static centered row also reads fine (reduced-motion
-   falls back to exactly that). */
+/* Institutional social proof — "Empresas que ya sellan con La Capital".
+   Auto-scrolling grayscale logo marquee; the set is rendered twice so the CSS
+   animation loops seamlessly at -50%. Logos are black-on-transparent in /public.
+   PENDING from client: final logos + written authorization to display each brand. */
 const LOGO_H = 46;
 const LOGOS = [
   { src: "/Logo_cliente_1.webp", w: 1294, h: 232 },

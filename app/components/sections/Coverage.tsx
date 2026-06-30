@@ -1,23 +1,23 @@
 import { Button } from "../Button";
 import { waLink, WA_MESSAGES } from "../../lib/site";
 
-/* National coverage. On the NACIONAL landing we deliberately avoid the
-   interactive 12-pin Google Map (that's the differentiator of the branch
-   landings) — this is a STATIC coverage panel: a blueprint field with a marker
-   per sucursal. No interactivity. */
+/* National coverage. On the NACIONAL landing we avoid the interactive 12-pin
+   Google Map (that's the branch-landing differentiator) — this is a STATIC
+   silhouette of México (CSS-masked SVG) with a decorative marker per sucursal.
+   Marker positions are approximate, not a literal geo-map. */
 const BRANCHES = [
-  { t: 20, l: 30 },
-  { t: 16, l: 47 },
-  { t: 26, l: 63 },
-  { t: 34, l: 39 },
-  { t: 40, l: 56 },
-  { t: 45, l: 71 },
-  { t: 51, l: 47 },
-  { t: 56, l: 63 },
-  { t: 61, l: 77 },
-  { t: 66, l: 57 },
-  { t: 71, l: 72 },
-  { t: 33, l: 21 },
+  { t: 20, l: 9 }, // NW (Baja norte)
+  { t: 36, l: 14 }, // Baja sur
+  { t: 27, l: 42 }, // norte
+  { t: 33, l: 62 }, // NE (Monterrey)
+  { t: 35, l: 52 }, // centro-norte
+  { t: 44, l: 54 }, // Bajío
+  { t: 48, l: 46 }, // occidente
+  { t: 50, l: 55 }, // centro (CDMX)
+  { t: 46, l: 58 }, // centro-este
+  { t: 52, l: 64 }, // costa golfo
+  { t: 54, l: 80 }, // Yucatán
+  { t: 58, l: 60 }, // sur
 ];
 
 export function Coverage() {
@@ -56,7 +56,7 @@ export function Coverage() {
         <div
           style={{
             position: "relative",
-            minHeight: 340,
+            minHeight: 380,
             border: "1.5px solid var(--ink-700)",
             borderRadius: 14,
             background: "var(--ink-900)",
@@ -73,32 +73,49 @@ export function Coverage() {
                 "repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 40px)",
             }}
           />
-          {/* Soft brand glow */}
+          {/* Map stage (square) — silhouette + markers share this box. */}
           <div
             style={{
               position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(60% 60% at 55% 45%, rgba(248,184,32,.12), transparent 70%)",
+              top: "46%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              width: "min(80%, 360px)",
+              aspectRatio: "1 / 1",
             }}
-          />
-          {/* One marker per sucursal (decorative, not a literal map) */}
-          {BRANCHES.map((b, i) => (
-            <span
-              key={i}
-              aria-hidden
+          >
+            {/* México silhouette (yellow-filled SVG as a subtle background) */}
+            <div
               style={{
                 position: "absolute",
-                top: `${b.t}%`,
-                left: `${b.l}%`,
-                width: 11,
-                height: 11,
-                borderRadius: "50%",
-                background: "var(--brand)",
-                boxShadow: "0 0 0 4px rgba(248,184,32,.18)",
+                inset: 0,
+                backgroundImage: "url(/mexico.svg)",
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                opacity: 0.5,
               }}
             />
-          ))}
+            {/* One marker per sucursal */}
+            {BRANCHES.map((b, i) => (
+              <span
+                key={i}
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  top: `${b.t}%`,
+                  left: `${b.l}%`,
+                  width: 10,
+                  height: 10,
+                  marginLeft: -5,
+                  marginTop: -5,
+                  borderRadius: "50%",
+                  background: "var(--brand)",
+                  boxShadow: "0 0 0 4px rgba(248,184,32,.18)",
+                }}
+              />
+            ))}
+          </div>
           {/* Caption */}
           <div
             style={{
@@ -112,7 +129,7 @@ export function Coverage() {
               alignItems: "baseline",
               gap: "6px 12px",
               background:
-                "linear-gradient(180deg, transparent, rgba(14,15,16,.85) 55%)",
+                "linear-gradient(180deg, transparent, rgba(14,15,16,.9) 60%)",
             }}
           >
             <span
