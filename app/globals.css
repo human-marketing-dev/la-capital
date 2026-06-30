@@ -1,26 +1,572 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   La Capital — Design System
+   Industrial fluid-sealing brand. Golden yellow (#F8B820) on near-black + white,
+   condensed uppercase headlines (Oswald), sturdy body (Barlow).
+   Tokens ported from the claude.ai/design project "La Capital — Design System".
+   Fonts: Oswald + Barlow are Google-Font substitutions for the unconfirmed
+   official brand typeface — flag to client. Loaded via next/font (see layout.tsx).
+   ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---- Brand yellow (insignia) ---- */
+  --yellow-50: #fff8e6;
+  --yellow-100: #feeec0;
+  --yellow-200: #fbdc84;
+  --yellow-300: #facb4d;
+  --yellow-400: #f8b820; /* PRIMARY — brand insignia */
+  --yellow-500: #eaa600;
+  --yellow-600: #c98a00; /* hover */
+  --yellow-700: #9e6c00; /* press / text-on-light */
+
+  /* ---- Ink / neutrals ---- */
+  --ink-900: #0e0f10; /* near-black hero/footer surface */
+  --ink-800: #16181a;
+  --ink-700: #222528;
+  --ink-600: #34383c;
+  --gray-500: #5c6168;
+  --gray-400: #868c93;
+  --gray-300: #b6bbc1;
+  --gray-200: #dcdfe3;
+  --gray-100: #edeff1;
+  --gray-50: #f6f7f8;
+  --white: #ffffff;
+
+  /* ---- Conversion accents ---- */
+  --whatsapp: #25d366;
+  --whatsapp-700: #1ca851;
+  --phone-blue: #1e63b8;
+  --phone-blue-700: #164c8c;
+
+  /* ---- Product / status accents ---- */
+  --accent-red: #d9342b;
+  --accent-blue: #1e63b8;
+  --success: #1ca851;
+  --warning: #c98a00;
+
+  /* ---- Semantic aliases ---- */
+  --brand: var(--yellow-400);
+  --brand-hover: var(--yellow-600);
+  --brand-press: var(--yellow-700);
+  --brand-tint: var(--yellow-50);
+  --brand-on: var(--ink-900); /* text/icon on yellow */
+
+  --surface: var(--white);
+  --surface-muted: var(--gray-50);
+  --surface-dark: var(--ink-900);
+  --surface-dark-2: var(--ink-800);
+
+  --text-strong: var(--ink-900);
+  --text-body: var(--ink-700);
+  --text-muted: var(--gray-500);
+  --text-on-dark: var(--white);
+  --text-on-dark-muted: var(--gray-300);
+
+  --border: var(--gray-200);
+  --border-strong: var(--ink-900);
+  --divider-dark: rgba(255, 255, 255, 0.12);
+
+  --cta-primary: var(--whatsapp);
+  --cta-primary-hover: var(--whatsapp-700);
+  --cta-phone: var(--phone-blue);
+
+  /* ---- Typography ---- */
+  /* --font-oswald / --font-barlow are injected by next/font in layout.tsx */
+  --font-display: var(--font-oswald), "Arial Narrow", system-ui, sans-serif;
+  --font-body: var(--font-barlow), system-ui, -apple-system, sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --text-display: clamp(2.6rem, 5.4vw, 4.6rem);
+  --text-h1: clamp(2.1rem, 4vw, 3.25rem);
+  --text-h2: clamp(1.7rem, 3vw, 2.5rem);
+  --text-h3: 1.5rem;
+  --text-h4: 1.2rem;
+  --text-stat: clamp(2.4rem, 4vw, 3.4rem);
+
+  --text-lead: 1.25rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+
+  --tracking-tight: -0.01em;
+  --tracking-label: 0.12em;
+  --tracking-wide: 0.06em;
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.18;
+  --leading-body: 1.55;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --section-y: clamp(56px, 8vw, 112px);
+  --container: 1400px;
+  --container-narrow: 760px;
+  --gutter: clamp(20px, 5vw, 56px);
+
+  /* ---- Radius ---- */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Borders ---- */
+  --border-w: 1.5px;
+  --border-w-strong: 2.5px;
+
+  /* ---- Shadows (crisp, low-spread — industrial, not floaty) ---- */
+  --shadow-sm: 0 1px 2px rgba(14, 15, 16, 0.08);
+  --shadow-md: 0 6px 18px rgba(14, 15, 16, 0.1);
+  --shadow-lg: 0 18px 44px rgba(14, 15, 16, 0.16);
+  --shadow-yellow: 0 8px 24px rgba(248, 184, 32, 0.34);
 }
 
+/* Expose a few tokens to Tailwind's utility theme so `font-display`,
+   `bg-brand`, `text-ink`, etc. resolve to the same values if used. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-oswald), "Arial Narrow", system-ui, sans-serif;
+  --font-body: var(--font-barlow), system-ui, -apple-system, sans-serif;
+  --color-brand: var(--yellow-400);
+  --color-ink: var(--ink-900);
+  --color-whatsapp: var(--whatsapp);
+  --color-phone: var(--phone-blue);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ==========================================================================
+   Base
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+::selection {
+  background: var(--brand);
+  color: var(--ink-900);
+}
+
+/* Floating WhatsApp pulse — the one looping element in the system. */
+@keyframes lc-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .lc-pulse {
+    animation: none !important;
+  }
+  * {
+    transition: none !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Layout helpers
+   ========================================================================== */
+.lc-container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.lc-section {
+  padding-block: var(--section-y);
+}
+.lc-section-tight {
+  padding-block: clamp(40px, 6vw, 80px);
+}
+.lc-hazard-rule {
+  height: 6px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--yellow-400) 0 18px,
+    var(--ink-900) 18px 36px
+  );
+}
+
+/* Two-column grids that collapse to one column on narrow viewports. */
+.lc-grid-split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.lc-grid-map {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.lc-grid-cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.lc-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.lc-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+.lc-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 920px) {
+  .lc-grid-split,
+  .lc-grid-map,
+  .lc-grid-cta {
+    grid-template-columns: 1fr;
+  }
+  .lc-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lc-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .lc-grid-3,
+  .lc-grid-4,
+  .lc-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Type helpers
+   ========================================================================== */
+.lc-eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.lc-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--ink-900);
+  margin-top: 10px;
+}
+.lc-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: var(--ink-900);
+}
+.lc-label {
+  display: block;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+
+/* ==========================================================================
+   Form controls
+   ========================================================================== */
+.lc-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-body);
+  background: #fff;
+}
+.lc-input:focus,
+.lc-input:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(248, 184, 32, 0.28);
+}
+.lc-input::placeholder {
+  color: var(--gray-400);
+}
+
+/* ==========================================================================
+   Buttons — conversion-first. WhatsApp green is the primary action.
+   ========================================================================== */
+.lc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 26px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+  border: var(--border-w-strong) solid transparent;
+  border-radius: var(--radius-sm);
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.lc-btn:active {
+  transform: translateY(1px);
+}
+.lc-btn--sm {
+  gap: 7px;
+  padding: 9px 18px;
+  font-size: 0.82rem;
+}
+.lc-btn--lg {
+  gap: 10px;
+  padding: 16px 30px;
+  font-size: 1.04rem;
+}
+.lc-btn--full {
+  display: flex;
+  width: 100%;
+}
+
+.lc-btn--wa {
+  background: var(--whatsapp);
+  color: #fff;
+}
+.lc-btn--wa:hover {
+  background: var(--whatsapp-700);
+}
+.lc-btn--brand {
+  background: var(--brand);
+  color: var(--ink-900);
+}
+.lc-btn--brand:hover {
+  background: var(--brand-hover);
+}
+.lc-btn--dark {
+  background: var(--ink-900);
+  color: #fff;
+}
+.lc-btn--dark:hover {
+  background: var(--ink-700);
+}
+.lc-btn--outline-light {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.lc-btn--outline-light:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.lc-btn--outline-ink {
+  background: transparent;
+  color: var(--ink-900);
+  border-color: var(--ink-900);
+}
+.lc-btn--outline-ink:hover {
+  background: rgba(14, 15, 16, 0.08);
+}
+
+/* ==========================================================================
+   Cards — white, squared, hairline border, optional 4px yellow top accent.
+   ========================================================================== */
+.lc-card {
+  background: #fff;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.lc-card--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.lc-card--accent {
+  border-top: 4px solid var(--brand);
+}
+
+/* ==========================================================================
+   Chips / pills — material, product, compatibility.
+   ========================================================================== */
+.lc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.92rem;
+  background: #fff;
+  color: var(--ink-700);
+  border: 1.5px solid var(--gray-200);
+}
+.lc-chip--dark {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.95rem;
+}
+.lc-chip--hero {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+}
+
+/* ==========================================================================
+   Industry cards (Sectores) — squared, hairline, yellow corner accent.
+   ========================================================================== */
+.lc-industry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px;
+  background: #fff;
+  border: 1.5px solid var(--gray-200);
+  border-left: 4px solid var(--brand);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.lc-industry:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.lc-industry__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.08rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--ink-900);
+}
+
+/* ==========================================================================
+   Client-logo marquee — auto-scrolling grayscale strip. Pauses on hover and
+   under prefers-reduced-motion (handled below).
+   ========================================================================== */
+.lc-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.lc-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: lc-scroll 32s linear infinite;
+}
+.lc-marquee:hover .lc-marquee__track {
+  animation-play-state: paused;
+}
+/* Trailing margin on every item (not flex gap) so the duplicated set loops at
+   exactly -50% with no seam. */
+.lc-marquee__item {
+  flex: 0 0 auto;
+  margin-right: clamp(40px, 6vw, 88px);
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+.lc-marquee__item:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+@keyframes lc-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lc-marquee__track {
+    animation: none;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 }
