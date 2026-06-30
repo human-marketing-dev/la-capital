@@ -70,7 +70,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           }}
         />
       </div>
-      <div style={{ padding: 24 }}>
+      <div style={{ padding: 24, background: "var(--brand)" }}>
         <h3
           style={{
             fontFamily: "var(--font-display)",
@@ -86,7 +86,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           style={{
             fontSize: "0.97rem",
             lineHeight: 1.5,
-            color: "var(--text-body)",
+            color: "var(--ink-800)",
             marginTop: 8,
           }}
         >
@@ -137,7 +137,7 @@ export function Products() {
           }}
         >
           <Button
-            variant="outline-ink"
+            variant="ink-yellow"
             href="https://selloslacapital.com/productos"
             target="_blank"
             rel="noopener noreferrer"

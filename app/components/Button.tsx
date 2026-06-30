@@ -3,7 +3,13 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 /* La Capital button. Conversion-first: `wa` (WhatsApp green) is the primary
    action, `brand` (yellow) is the submit/brand action, `dark`/outlines are
    secondary. Hover/press are handled entirely in CSS (see globals.css). */
-type Variant = "wa" | "brand" | "dark" | "outline-light" | "outline-ink";
+type Variant =
+  | "wa"
+  | "brand"
+  | "dark"
+  | "outline-light"
+  | "outline-ink"
+  | "ink-yellow";
 type Size = "sm" | "md" | "lg";
 
 const VARIANT_CLASS: Record<Variant, string> = {
@@ -12,6 +18,7 @@ const VARIANT_CLASS: Record<Variant, string> = {
   dark: "lc-btn--dark",
   "outline-light": "lc-btn--outline-light",
   "outline-ink": "lc-btn--outline-ink",
+  "ink-yellow": "lc-btn--ink-yellow",
 };
 
 const SIZE_CLASS: Record<Size, string> = {

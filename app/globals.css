@@ -428,6 +428,13 @@ img {
 .lc-btn--outline-ink:hover {
   background: rgba(14, 15, 16, 0.08);
 }
+.lc-btn--ink-yellow {
+  background: var(--ink-900);
+  color: var(--brand);
+}
+.lc-btn--ink-yellow:hover {
+  background: var(--ink-700);
+}
 
 /* ==========================================================================
    Cards — white, squared, hairline border, optional 4px yellow top accent.
@@ -485,15 +492,24 @@ img {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 20px 22px;
+  padding: 18px 20px;
   background: #fff;
   border: 1.5px solid var(--gray-200);
-  border-left: 4px solid var(--brand);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
+}
+.lc-industry__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--brand);
+  color: var(--ink-900);
 }
 .lc-industry:hover {
   transform: translateY(-4px);
@@ -552,6 +568,15 @@ img {
 }
 .lc-marquee__item:hover {
   filter: grayscale(0);
+  opacity: 1;
+}
+/* On the brand-yellow surface, keep the black logos solid and legible. */
+.lc-marquee--on-brand .lc-marquee__item {
+  filter: none;
+  opacity: 0.82;
+}
+.lc-marquee--on-brand .lc-marquee__item:hover {
+  filter: none;
   opacity: 1;
 }
 @keyframes lc-scroll {

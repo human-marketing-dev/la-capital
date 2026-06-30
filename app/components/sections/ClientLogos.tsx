@@ -17,10 +17,10 @@ const LOGOS = [
 export function ClientLogos() {
   const loop = [...LOGOS, ...LOGOS];
   return (
-    <section style={{ background: "#fff" }}>
+    <section style={{ background: "var(--brand)" }}>
       <div className="lc-container lc-section-tight">
         <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <p className="lc-eyebrow" style={{ color: "var(--gray-400)" }}>
+          <p className="lc-eyebrow" style={{ color: "rgba(14,15,16,.62)" }}>
             Confían en nosotros
           </p>
           <h3 className="lc-h3" style={{ marginTop: 10 }}>
@@ -28,7 +28,7 @@ export function ClientLogos() {
           </h3>
         </div>
 
-        <div className="lc-marquee">
+        <div className="lc-marquee lc-marquee--on-brand">
           <div className="lc-marquee__track">
             {loop.map((logo, i) => (
               <div

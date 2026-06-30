@@ -7,8 +7,20 @@ import { PHONE_HREF, waLink, WA_MESSAGES } from "../../lib/site";
 
 function HeroBadge({ children }: { children: ReactNode }) {
   return (
-    <span className="lc-chip lc-chip--hero" style={{ fontWeight: 600 }}>
-      <span style={{ color: "var(--brand)", fontWeight: 800 }}>✓</span>
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 7,
+        padding: "7px 14px",
+        borderRadius: 999,
+        background: "var(--brand)",
+        color: "var(--ink-900)",
+        fontWeight: 700,
+        fontSize: "0.82rem",
+      }}
+    >
+      <span style={{ fontWeight: 800 }}>✓</span>
       {children}
     </span>
   );

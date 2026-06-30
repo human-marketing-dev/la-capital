@@ -6,7 +6,6 @@ import { Pillars } from "./components/sections/Pillars";
 import { Industries } from "./components/sections/Industries";
 import { Materials } from "./components/sections/Materials";
 import { ClientLogos } from "./components/sections/ClientLogos";
-import { SocialProof } from "./components/sections/SocialProof";
 import { Coverage } from "./components/sections/Coverage";
 import { ClosingCta } from "./components/sections/ClosingCta";
 import { SiteFooter } from "./components/sections/SiteFooter";
@@ -14,10 +13,10 @@ import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
 
 /* LP Campaña 1 · General · Industrial — conversion-first lead-capture landing
    for La Capital. Block order:
-   header · hero+form · trust bar · productos/catálogo · diferenciadores ·
-   industrias · materiales · empresas que ya sellan (logos) · respaldo de calidad ·
-   cobertura nacional · CTA cierre+form · footer. Plus floating WhatsApp.
-   (Compatibilidad removed per client; chatbot HubSpot widget pending.) */
+   header · hero+form · trust bar · productos/catálogo · diferenciadores
+   (Por qué La Capital, con respaldo de calidad inline) · industrias · materiales ·
+   empresas que ya sellan (logos) · cobertura nacional · CTA cierre+form · footer.
+   Plus floating WhatsApp. (Compatibilidad removed per client; chatbot pending.) */
 export default function Home() {
   return (
     <>
@@ -30,7 +29,6 @@ export default function Home() {
         <Industries />
         <Materials />
         <ClientLogos />
-        <SocialProof />
         <Coverage />
         <ClosingCta />
       </main>
