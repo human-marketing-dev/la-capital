@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { Button } from "../Button";
-import { WhatsAppIcon } from "../icons";
-import { PHONE_DISPLAY, PHONE_HREF, waLink, WA_MESSAGES } from "../../lib/site";
+import { PHONE_DISPLAY, PHONE_HREF } from "../../lib/site";
 
-/* Sticky ink header. Logo left; phone + WhatsApp (primary) right. */
+/* Sticky ink header. Logo left; phone button (primary) right. */
 export function SiteHeader() {
   return (
     <header
@@ -21,45 +20,26 @@ export function SiteHeader() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 24,
+          gap: 14,
           paddingBlock: 14,
         }}
       >
         <Image
           src="/logo-la-capital.png"
           alt="La Capital — Sellos hidráulicos, neumáticos y retenes"
-          width={157}
-          height={40}
+          width={893}
+          height={228}
           priority
-          style={{ height: 40, width: "auto" }}
+          className="lc-header-logo"
         />
-        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <a
-            href={PHONE_HREF}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              color: "#fff",
-              textDecoration: "none",
-              fontWeight: 600,
-              fontSize: "0.95rem",
-            }}
-          >
-            <span style={{ color: "var(--brand)", fontSize: "1.05rem" }}>✆</span>
-            <span style={{ whiteSpace: "nowrap" }}>{PHONE_DISPLAY}</span>
-          </a>
-          <Button
-            variant="wa"
-            size="sm"
-            href={waLink(WA_MESSAGES.quote)}
-            target="_blank"
-            rel="noopener noreferrer"
-            icon={<WhatsAppIcon size={16} />}
-          >
-            WhatsApp
-          </Button>
-        </div>
+        <Button
+          variant="brand"
+          size="sm"
+          href={PHONE_HREF}
+          icon={<span style={{ fontSize: "1.05rem" }}>✆</span>}
+        >
+          {PHONE_DISPLAY}
+        </Button>
       </div>
     </header>
   );

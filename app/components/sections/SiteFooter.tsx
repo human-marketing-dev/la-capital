@@ -45,8 +45,8 @@ export function SiteFooter() {
           <Image
             src="/logo-la-capital.png"
             alt="La Capital"
-            width={157}
-            height={40}
+            width={893}
+            height={228}
             style={{ height: 40, width: "auto" }}
           />
           <p

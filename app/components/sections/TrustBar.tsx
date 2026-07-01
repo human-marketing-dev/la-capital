@@ -13,7 +13,7 @@ const STATS = [
 export function TrustBar() {
   return (
     <section style={{ background: "var(--brand)", color: "var(--ink-900)" }}>
-      <div className="lc-container lc-grid-4" style={{ paddingBlock: 34 }}>
+      <div className="lc-container lc-grid-stats" style={{ paddingBlock: 34 }}>
         {STATS.map((s) => (
           <Stat key={s.label} value={s.value} label={s.label} tone="brand" />
         ))}

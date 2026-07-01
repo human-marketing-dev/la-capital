@@ -52,7 +52,7 @@ export function Pillars() {
           inset: 0,
           zIndex: 1,
           background:
-            "radial-gradient(120% 90% at 50% 0%, rgba(248,184,32,.12), transparent 55%), linear-gradient(180deg, rgba(14,15,16,.86), rgba(16,18,20,.92))",
+            "radial-gradient(120% 90% at 50% 0%, rgba(248,184,32,.1), transparent 55%), linear-gradient(180deg, rgba(14,15,16,.88), rgba(16,18,20,.94))",
         }}
       />
 

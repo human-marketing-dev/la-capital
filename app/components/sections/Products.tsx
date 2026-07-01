@@ -99,7 +99,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
 
 export function Products() {
   return (
-    <section style={{ background: "#fff" }}>
+    <section style={{ background: "var(--gray-50)" }}>
       <div className="lc-container lc-section">
         <div
           style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}

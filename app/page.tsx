@@ -6,7 +6,7 @@ import { Pillars } from "./components/sections/Pillars";
 import { Industries } from "./components/sections/Industries";
 import { Materials } from "./components/sections/Materials";
 import { ClientLogos } from "./components/sections/ClientLogos";
-import { Coverage } from "./components/sections/Coverage";
+import { CoverageSlider } from "./components/sections/CoverageSlider";
 import { ClosingCta } from "./components/sections/ClosingCta";
 import { SiteFooter } from "./components/sections/SiteFooter";
 import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
@@ -29,7 +29,7 @@ export default function Home() {
         <Industries />
         <Materials />
         <ClientLogos />
-        <Coverage />
+        <CoverageSlider />
         <ClosingCta />
       </main>
       <SiteFooter />

@@ -105,18 +105,18 @@ const INDUSTRIES: { name: string; icon: ReactNode }[] = [
 
 export function Industries() {
   return (
-    <section style={{ background: "#fff" }}>
+    <section style={{ background: "var(--brand)" }}>
       <div className="lc-container lc-section">
         <div
           style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}
         >
-          <p className="lc-eyebrow" style={{ color: "var(--brand-press)" }}>
+          <p className="lc-eyebrow" style={{ color: "rgba(14,15,16,.6)" }}>
             Sectores
           </p>
           <h2 className="lc-h2">Sellado para prácticamente cualquier industria</h2>
           <p
             style={{
-              color: "var(--text-muted)",
+              color: "rgba(14,15,16,.72)",
               marginTop: 12,
               fontSize: "1.05rem",
             }}

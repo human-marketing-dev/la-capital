@@ -165,6 +165,7 @@ body {
   background: var(--white);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip; /* safety net against horizontal scroll on mobile */
 }
 h1,
 h2,
@@ -232,6 +233,18 @@ img {
   );
 }
 
+/* Header logo shrinks on small screens so the logo + phone button always fit. */
+.lc-header-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+@media (max-width: 480px) {
+  .lc-header-logo {
+    height: 30px;
+  }
+}
+
 /* Two-column grids that collapse to one column on narrow viewports. */
 .lc-grid-split {
   display: grid;
@@ -261,10 +274,29 @@ img {
   grid-template-columns: repeat(4, 1fr);
   gap: 28px;
 }
+/* Trust-bar stats: 4 across, then 2×2 on tablet AND mobile (never 1 column). */
+.lc-grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
 .lc-grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
+}
+
+/* Let grid items shrink below their content's min-content size, otherwise a
+   wide child (form, headline) forces the track wider than the viewport and the
+   page overflows horizontally on mobile. */
+.lc-grid-split > *,
+.lc-grid-map > *,
+.lc-grid-cta > *,
+.lc-grid-3 > *,
+.lc-grid-4 > *,
+.lc-grid-stats > *,
+.lc-grid-2 > * {
+  min-width: 0;
 }
 
 @media (max-width: 920px) {
@@ -276,7 +308,8 @@ img {
   .lc-grid-3 {
     grid-template-columns: repeat(2, 1fr);
   }
-  .lc-grid-4 {
+  .lc-grid-4,
+  .lc-grid-stats {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -454,6 +487,59 @@ img {
 }
 .lc-card--accent {
   border-top: 4px solid var(--brand);
+}
+
+/* ==========================================================================
+   Horizontal slider — scroll-snap track with hidden scrollbar (used by the
+   sucursales slider). Arrow controls scroll it via JS.
+   ========================================================================== */
+.lc-slider-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+}
+.lc-slider-track::-webkit-scrollbar {
+  display: none;
+}
+/* 1 card (peek) on mobile, 2 on tablet, exactly 3 on desktop (gap 20px). */
+.lc-slider-card {
+  flex: 0 0 auto;
+  width: 85%;
+  scroll-snap-align: start;
+}
+@media (min-width: 640px) {
+  .lc-slider-card {
+    width: calc((100% - 20px) / 2);
+  }
+}
+@media (min-width: 980px) {
+  .lc-slider-card {
+    width: calc((100% - 40px) / 3);
+  }
+}
+.lc-slider-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink-900);
+  border: 1.5px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.lc-slider-arrow:hover {
+  background: var(--gray-50);
+  border-color: var(--ink-900);
 }
 
 /* ==========================================================================

@@ -47,7 +47,7 @@ export function Hero() {
           inset: 0,
           zIndex: 1,
           background:
-            "radial-gradient(120% 95% at 82% 8%, rgba(248,184,32,.16), transparent 52%), linear-gradient(180deg, rgba(14,15,16,.82), rgba(20,22,24,.9))",
+            "radial-gradient(120% 95% at 82% 8%, rgba(248,184,32,.14), transparent 52%), linear-gradient(180deg, rgba(14,15,16,.88), rgba(20,22,24,.93))",
         }}
       />
       {/* 45° hazard stripe — the recurring industrial motif. */}
@@ -86,7 +86,7 @@ export function Hero() {
             style={{
               fontSize: "1.18rem",
               lineHeight: 1.5,
-              color: "var(--gray-300)",
+              color: "#fff",
               maxWidth: "48ch",
               marginTop: 18,
             }}

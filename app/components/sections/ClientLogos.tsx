@@ -39,8 +39,8 @@ export function ClientLogos() {
                 <Image
                   src={logo.src}
                   alt="Logotipo de cliente de La Capital"
-                  width={Math.round(LOGO_H * (logo.w / logo.h))}
-                  height={LOGO_H}
+                  width={logo.w}
+                  height={logo.h}
                   style={{ height: LOGO_H, width: "auto" }}
                 />
               </div>
