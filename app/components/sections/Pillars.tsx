@@ -104,7 +104,7 @@ export function Pillars() {
                 title={c.alt}
                 width={1080}
                 height={1080}
-                style={{ height: 64, width: "auto", objectFit: "contain" }}
+                style={{ height: 120, width: "auto", objectFit: "contain" }}
               />
             ))}
           </div>

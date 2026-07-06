@@ -7,7 +7,7 @@ const STATS: { value: string; suffix?: string; label: string }[] = [
   { value: "+40,000", label: "Productos en inventario" },
   { value: "+20", suffix: "años", label: "Líderes en el mercado" },
   { value: "12", label: "Sucursales en México" },
-  { value: "ISO 9001", label: "Empresa certificada" },
+  { value: "ISO", label: "9001:2015" },
 ];
 
 export function TrustBar() {

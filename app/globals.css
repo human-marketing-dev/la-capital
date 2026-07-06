@@ -236,12 +236,12 @@ img {
 /* Header logo shrinks on small screens so the logo + phone button always fit. */
 .lc-header-logo {
   display: block;
-  height: 40px;
+  height: 50px;
   width: auto;
 }
 @media (max-width: 480px) {
   .lc-header-logo {
-    height: 30px;
+    height: 38px;
   }
 }
 

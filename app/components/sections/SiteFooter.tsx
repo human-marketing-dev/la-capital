@@ -47,7 +47,7 @@ export function SiteFooter() {
             alt="La Capital"
             width={893}
             height={228}
-            style={{ height: 40, width: "auto" }}
+            style={{ height: 50, width: "auto" }}
           />
           <p
             style={{
