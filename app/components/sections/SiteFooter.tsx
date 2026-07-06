@@ -57,25 +57,8 @@ export function SiteFooter() {
               color: "var(--gray-400)",
             }}
           >
-            Soluciones para la industria. Con La Capital, tu maquinaria nunca se
-            detiene.
+            La Capital — Sellos Hidráulicos, Neumáticos y Retenes
           </p>
-          <div style={{ display: "flex", gap: 12, marginTop: 18 }}>
-            <a
-              href="https://www.linkedin.com/company/la-capital-del-sello/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={link}
-            >
-              LinkedIn
-            </a>
-            <a href="#" style={link}>
-              Facebook
-            </a>
-            <a href="#" style={link}>
-              Instagram
-            </a>
-          </div>
         </div>
 
         {/* Contacto */}
@@ -106,40 +89,6 @@ export function SiteFooter() {
             <span style={link}>12 sucursales en México</span>
             <span style={link}>Envío nacional e internacional</span>
             <span style={link}>Visita técnica en sitio</span>
-          </div>
-        </div>
-
-        {/* Enlaces */}
-        <div>
-          <div style={heading}>Enlaces</div>
-          <div style={colList}>
-            <a
-              href="https://selloslacapital.com/productos"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={link}
-            >
-              Catálogo de productos
-            </a>
-            <a
-              href="https://selloslacapital.com/sucursales"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={link}
-            >
-              Sucursales
-            </a>
-            <a
-              href="https://selloslacapital.com/calidad"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={link}
-            >
-              Calidad · ISO 9001
-            </a>
-            <a href="#" style={link}>
-              Aviso de privacidad
-            </a>
           </div>
         </div>
       </div>

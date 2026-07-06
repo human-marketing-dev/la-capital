@@ -14,24 +14,18 @@ import {
 export function ClosingCta() {
   return (
     <section
+      id="cotizar"
       style={{
         background: "var(--brand)",
         color: "var(--ink-900)",
         position: "relative",
         overflow: "hidden",
+        scrollMarginTop: 80,
       }}
     >
       <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 6,
-          background:
-            "repeating-linear-gradient(135deg,#0e0f10 0 18px,transparent 18px 36px)",
-          opacity: 0.5,
-        }}
+        className="lc-hazard-rule"
+        style={{ position: "absolute", top: 0, left: 0, right: 0 }}
       />
 
       <div className="lc-container lc-section lc-grid-cta">

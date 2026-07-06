@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { Button } from "../Button";
-import { WhatsAppIcon } from "../icons";
-import { waLink, WA_MESSAGES } from "../../lib/site";
 
 type Product = {
   title: string;
@@ -12,8 +10,8 @@ type Product = {
 
 /* Catalog answers the visitor's first question — "¿tienen lo mío?" — so it
    sits right after the hero + trust bar. Fabricación a medida (CNC) is just
-   one more card in the grid, with NO special treatment: it's the protagonist
-   of the C1|G2 landing, a support argument here. */
+   one more card in the grid. Card info area is dark with the yellow accent line
+   (consistent with the pillar cards). */
 const PRODUCTS: Product[] = [
   {
     title: "Sellos para vástago y émbolo",
@@ -43,7 +41,7 @@ const PRODUCTS: Product[] = [
   {
     title: "Fabricación a medida (CNC)",
     body: "¿Medida especial o descontinuada? La fabricamos en CNC, desde 1 pieza.",
-    image: "/mecanizado_cnc.webp",
+    image: "/La-Capital-Sellos-Hidraulicos-fabricacion-cnc.webp",
   },
 ];
 
@@ -54,7 +52,6 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
         style={{
           position: "relative",
           aspectRatio: "16 / 10",
-          borderBottom: "1.5px solid var(--gray-200)",
           background: "#fff",
         }}
       >
@@ -70,14 +67,20 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           }}
         />
       </div>
-      <div style={{ padding: 24, background: "var(--brand)" }}>
+      <div
+        style={{
+          padding: 24,
+          background: "var(--ink-900)",
+          borderTop: "4px solid var(--brand)",
+        }}
+      >
         <h3
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "1.25rem",
             textTransform: "uppercase",
-            color: "var(--ink-900)",
+            color: "#fff",
           }}
         >
           {title}
@@ -86,7 +89,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           style={{
             fontSize: "0.97rem",
             lineHeight: 1.5,
-            color: "var(--ink-800)",
+            color: "var(--gray-300)",
             marginTop: 8,
           }}
         >
@@ -102,22 +105,14 @@ export function Products() {
     <section style={{ background: "var(--gray-50)" }}>
       <div className="lc-container lc-section">
         <div
-          style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}
+          style={{ textAlign: "center", maxWidth: 820, margin: "0 auto 44px" }}
         >
           <p className="lc-eyebrow" style={{ color: "var(--brand-press)" }}>
-            Catálogo · +40,000 productos
+            Nuestro Catálogo
           </p>
-          <h2 className="lc-h2">Todo el sellado de fluidos, en un solo lugar</h2>
-          <p
-            style={{
-              color: "var(--text-muted)",
-              marginTop: 12,
-              fontSize: "1.05rem",
-            }}
-          >
-            Líneas completas en inventario o fabricadas a la medida. Encuentra tu
-            sello por tipo o envíanos tu número de parte.
-          </p>
+          <h2 className="lc-h2">
+            +40,000 soluciones de sellado, en un solo lugar
+          </h2>
         </div>
 
         <div className="lc-grid-3">
@@ -127,30 +122,9 @@ export function Products() {
         </div>
 
         <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 14,
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 44,
-          }}
+          style={{ display: "flex", justifyContent: "center", marginTop: 44 }}
         >
-          <Button
-            variant="ink-yellow"
-            href="https://selloslacapital.com/productos"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver catálogo completo
-          </Button>
-          <Button
-            variant="wa"
-            href={waLink(WA_MESSAGES.product)}
-            target="_blank"
-            rel="noopener noreferrer"
-            icon={<WhatsAppIcon size={18} />}
-          >
+          <Button variant="dark" size="lg" href="#cotizar">
             Cotizar mi sello
           </Button>
         </div>

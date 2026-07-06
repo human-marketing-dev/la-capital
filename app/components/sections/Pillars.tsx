@@ -9,7 +9,7 @@ const PILLARS = [
   {
     number: "01",
     title: "+40,000 sellos disponibles",
-    body: "Inventario inmediato de marcas premium — Hallite, SKF y Kastaş — listo para enviar.",
+    body: "Inventario inmediato de marcas premium — listo para enviar.",
   },
   {
     number: "02",
@@ -24,11 +24,11 @@ const PILLARS = [
 ];
 
 const CERTS = [
-  { src: "/logo-iso-la-capital.webp", alt: "ISO 9001:2015" },
-  { src: "/logo-duns-la-capital.webp", alt: "D-U-N-S" },
-  { src: "/logo-hallite-la-capital.webp", alt: "Hallite" },
-  { src: "/logo-skf-la-capital.webp", alt: "SKF" },
-  { src: "/logo-kastas-la-capital.webp", alt: "Kastaş" },
+  { src: "/logo-iso-la-capital-blanco.webp", alt: "ISO 9001:2015" },
+  { src: "/logo-duns-la-capital-blanco.webp", alt: "D-U-N-S" },
+  { src: "/logo-hallite-la-capital-blanco.webp", alt: "Hallite" },
+  { src: "/logo-skf-la-capital-blanco.webp", alt: "SKF" },
+  { src: "/logo-kastas-la-capital-blanco.webp", alt: "Kastaş" },
 ];
 
 export function Pillars() {
@@ -38,7 +38,7 @@ export function Pillars() {
     >
       {/* Fulfillment-warehouse photography in the background. */}
       <Image
-        src="/bodega-la-capital.webp"
+        src="/La-Capital-Sellos-Hidraulicos-bodega.webp"
         alt=""
         aria-hidden
         fill
@@ -64,10 +64,10 @@ export function Pillars() {
           style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}
         >
           <p className="lc-eyebrow" style={{ color: "var(--brand)" }}>
-            Por qué La Capital
+            ¿Por qué elegir La Capital?
           </p>
           <h2 className="lc-h2" style={{ color: "#fff" }}>
-            Más que sellos: tu aliado en soluciones de sellado
+            Tu aliado en soluciones de sellado
           </h2>
         </div>
 
@@ -91,34 +91,21 @@ export function Pillars() {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              gap: 16,
+              gap: "24px 40px",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             {CERTS.map((c) => (
-              <div
+              <Image
                 key={c.src}
+                src={c.src}
+                alt={c.alt}
                 title={c.alt}
-                style={{
-                  display: "grid",
-                  placeItems: "center",
-                  width: 84,
-                  height: 84,
-                  borderRadius: 12,
-                  background: "#fff",
-                  padding: 12,
-                  boxShadow: "var(--shadow-sm)",
-                }}
-              >
-                <Image
-                  src={c.src}
-                  alt={c.alt}
-                  width={60}
-                  height={60}
-                  style={{ width: 60, height: 60, objectFit: "contain" }}
-                />
-              </div>
+                width={1080}
+                height={1080}
+                style={{ height: 64, width: "auto", objectFit: "contain" }}
+              />
             ))}
           </div>
         </div>

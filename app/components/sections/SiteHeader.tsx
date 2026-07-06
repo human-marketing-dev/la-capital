@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Button } from "../Button";
 import { PHONE_DISPLAY, PHONE_HREF } from "../../lib/site";
 
-/* Sticky ink header. Logo left; phone button (primary) right. */
+/* Sticky ink header. Logo left; phone button (primary) right. A 45° hazard
+   stripe runs along the bottom edge — the recurring industrial motif. */
 export function SiteHeader() {
   return (
     <header
@@ -11,7 +12,6 @@ export function SiteHeader() {
         top: 0,
         zIndex: 50,
         background: "var(--ink-900)",
-        borderBottom: "1px solid rgba(255,255,255,.08)",
       }}
     >
       <div
@@ -36,11 +36,23 @@ export function SiteHeader() {
           variant="brand"
           size="sm"
           href={PHONE_HREF}
-          icon={<span style={{ fontSize: "1.05rem" }}>✆</span>}
+          icon={
+            <span
+              style={{
+                fontSize: "1.75rem",
+                lineHeight: 1,
+                display: "inline-block",
+                transform: "translateY(-0.135em)",
+              }}
+            >
+              ✆
+            </span>
+          }
         >
           {PHONE_DISPLAY}
         </Button>
       </div>
+      <div className="lc-hazard-rule" />
     </header>
   );
 }

@@ -512,6 +512,12 @@ img {
   width: 85%;
   scroll-snap-align: start;
 }
+/* Narrower slides for the industries slider (icon + text, no container). */
+.lc-slider-ind {
+  flex: 0 0 auto;
+  width: clamp(150px, 40vw, 200px);
+  scroll-snap-align: start;
+}
 @media (min-width: 640px) {
   .lc-slider-card {
     width: calc((100% - 20px) / 2);

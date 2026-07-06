@@ -21,7 +21,7 @@ export function ClientLogos() {
       <div className="lc-container lc-section-tight">
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <p className="lc-eyebrow" style={{ color: "rgba(14,15,16,.62)" }}>
-            Confían en nosotros
+            Nuestros Clientes
           </p>
           <h3 className="lc-h3" style={{ marginTop: 10 }}>
             Empresas que ya sellan con La Capital

@@ -1,20 +1,19 @@
-import type { ReactNode } from "react";
-import { Button } from "../Button";
-import { waLink, WA_MESSAGES } from "../../lib/site";
+"use client";
 
-/* Sectores — communicates breadth of coverage (replaces the closed list of
-   machine logos). Each box carries a Lucide-style line icon (1.5px stroke) in a
-   yellow tile — La Capital has no proprietary icon set (see brand guidelines).
-   List is a PROPUESTA from the brief — validate with client. */
+import { useRef, type ReactNode } from "react";
+
+/* Industrias que atendemos — black section, horizontal slider of industry
+   items (Lucide-style icon + name, brand-yellow, no card container).
+   Communicates breadth of coverage. List is a PROPUESTA from the brief. */
 function Svg({ children }: { children: ReactNode }) {
   return (
     <svg
-      width={22}
-      height={22}
+      width={40}
+      height={40}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.6}
+      strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -103,47 +102,100 @@ const INDUSTRIES: { name: string; icon: ReactNode }[] = [
   },
 ];
 
-export function Industries() {
+function Arrow({
+  dir,
+  onClick,
+}: {
+  dir: "prev" | "next";
+  onClick: () => void;
+}) {
   return (
-    <section style={{ background: "var(--brand)" }}>
+    <button
+      type="button"
+      className="lc-slider-arrow"
+      aria-label={dir === "prev" ? "Anterior" : "Siguiente"}
+      onClick={onClick}
+    >
+      <svg
+        width={20}
+        height={20}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d={dir === "prev" ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"} />
+      </svg>
+    </button>
+  );
+}
+
+export function Industries() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const scrollBy = (d: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const item = el.querySelector<HTMLElement>(".lc-slider-ind");
+    const step = item ? item.getBoundingClientRect().width + 20 : el.clientWidth;
+    el.scrollBy({ left: d * step, behavior: "smooth" });
+  };
+
+  return (
+    <section style={{ background: "var(--ink-900)", color: "#fff" }}>
       <div className="lc-container lc-section">
         <div
-          style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 20,
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            marginBottom: 40,
+          }}
         >
-          <p className="lc-eyebrow" style={{ color: "rgba(14,15,16,.6)" }}>
-            Sectores
-          </p>
-          <h2 className="lc-h2">Sellado para prácticamente cualquier industria</h2>
-          <p
-            style={{
-              color: "rgba(14,15,16,.72)",
-              marginTop: 12,
-              fontSize: "1.05rem",
-            }}
-          >
-            Atendemos desde mantenimiento de planta hasta maquinaria pesada y
-            transporte. Si trabaja con fluidos a presión, tenemos el sello.
-          </p>
+          <h2 className="lc-h2" style={{ color: "#fff", margin: 0 }}>
+            Industrias que atendemos
+          </h2>
+          <div style={{ display: "flex", gap: 10 }}>
+            <Arrow dir="prev" onClick={() => scrollBy(-1)} />
+            <Arrow dir="next" onClick={() => scrollBy(1)} />
+          </div>
         </div>
 
-        <div className="lc-grid-4">
+        <div ref={trackRef} className="lc-slider-track">
           {INDUSTRIES.map((ind) => (
-            <div key={ind.name} className="lc-industry">
-              <span className="lc-industry__icon">{ind.icon}</span>
-              <span className="lc-industry__name">{ind.name}</span>
+            <div
+              key={ind.name}
+              className="lc-slider-ind"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 16,
+                textAlign: "center",
+                color: "var(--brand)",
+                padding: "8px 4px",
+              }}
+            >
+              {ind.icon}
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 600,
+                  fontSize: "1.02rem",
+                  lineHeight: 1.15,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.02em",
+                  color: "var(--brand)",
+                }}
+              >
+                {ind.name}
+              </span>
             </div>
           ))}
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 44 }}>
-          <Button
-            variant="ink-yellow"
-            href={waLink(WA_MESSAGES.application)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ¿No ves tu industria? Cuéntanos tu aplicación
-          </Button>
         </div>
       </div>
     </section>

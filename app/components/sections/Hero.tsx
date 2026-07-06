@@ -2,8 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Button } from "../Button";
 import { LeadForm } from "../LeadForm";
-import { WhatsAppIcon } from "../icons";
-import { PHONE_HREF, waLink, WA_MESSAGES } from "../../lib/site";
+import { PHONE_HREF } from "../../lib/site";
 
 function HeroBadge({ children }: { children: ReactNode }) {
   return (
@@ -29,9 +28,9 @@ function HeroBadge({ children }: { children: ReactNode }) {
 export function Hero() {
   return (
     <section style={{ position: "relative", color: "#fff", overflow: "hidden" }}>
-      {/* Industrial photography in the background. */}
+      {/* Industrial photography in the background (O-rings close-up). */}
       <Image
-        src="/background-la-capital.webp"
+        src="/La-Capital-Sellos-Hidraulicos-bakcground-hero.webp"
         alt=""
         aria-hidden
         fill
@@ -39,7 +38,7 @@ export function Hero() {
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", zIndex: 0 }}
       />
-      {/* Dark scrim + radial yellow glow so the photo never competes with text. */}
+      {/* Strong dark scrim (no yellow tint) so the photo stays subtle. */}
       <div
         aria-hidden
         style={{
@@ -47,15 +46,9 @@ export function Hero() {
           inset: 0,
           zIndex: 1,
           background:
-            "radial-gradient(120% 95% at 82% 8%, rgba(248,184,32,.14), transparent 52%), linear-gradient(180deg, rgba(14,15,16,.88), rgba(20,22,24,.93))",
+            "linear-gradient(180deg, rgba(14,15,16,.92), rgba(20,22,24,.95))",
         }}
       />
-      {/* 45° hazard stripe — the recurring industrial motif. */}
-      <div
-        className="lc-hazard-rule"
-        style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 2 }}
-      />
-
       <div
         className="lc-container lc-grid-split"
         style={{ position: "relative", zIndex: 2, paddingBlock: "clamp(44px,6vw,84px)" }}
@@ -119,16 +112,6 @@ export function Hero() {
               alignItems: "center",
             }}
           >
-            <Button
-              variant="wa"
-              size="lg"
-              href={waLink(WA_MESSAGES.quote)}
-              target="_blank"
-              rel="noopener noreferrer"
-              icon={<WhatsAppIcon size={20} />}
-            >
-              Cotizar por WhatsApp
-            </Button>
             <Button variant="outline-light" size="lg" href={PHONE_HREF}>
               Llamar ahora
             </Button>
