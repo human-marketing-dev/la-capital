@@ -506,7 +506,7 @@ img {
 .lc-slider-track::-webkit-scrollbar {
   display: none;
 }
-/* 1 card (peek) on mobile, 2 on tablet, exactly 3 on desktop (gap 20px). */
+/* 1 card (peek) on mobile, 2 on tablet, 4 on desktop (gap 20px). */
 .lc-slider-card {
   flex: 0 0 auto;
   width: 85%;
@@ -525,7 +525,7 @@ img {
 }
 @media (min-width: 980px) {
   .lc-slider-card {
-    width: calc((100% - 40px) / 3);
+    width: calc((100% - 60px) / 4);
   }
 }
 .lc-slider-arrow {

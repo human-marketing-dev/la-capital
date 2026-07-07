@@ -2,12 +2,11 @@
 
 import { useState, type CSSProperties } from "react";
 
-/* Lead-capture form. This is a styled placeholder for the real HubSpot embed
-   (pending from client) — it captures nothing server-side yet; on submit it
-   just shows a local confirmation. Two variants:
-     - "hero": full form (Nombre, Teléfono, Correo, ¿Qué sello?) + CNC checkbox.
-     - "cta":  compact closing form (Nombre, Teléfono, ¿Qué sello?), dark submit.
-   The CNC checkbox is the routing mechanism toward the C1|G2 (a-medida) flow. */
+/* Lead-capture form. Styled placeholder for the real HubSpot embed (pending
+   from client) — captures nothing server-side yet; on submit it shows a local
+   confirmation. Fields (both variants): Nombre completo · Empresa · Teléfono ·
+   ¿Qué sello necesitas? (dropdown). The "Fabricación a Medida" option is the
+   routing signal toward the C1|G2 (a-medida) flow. "hero" adds a badge + title. */
 const badgeStyle: CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
@@ -23,6 +22,15 @@ const badgeStyle: CSSProperties = {
   borderRadius: 999,
   marginBottom: 16,
 };
+
+const SELLO_OPTIONS = [
+  "Sellos Hidráulicos",
+  "Sellos Neumáticos",
+  "O-Rings",
+  "Retenes",
+  "Fabricación a Medida",
+  "Otro",
+];
 
 export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
   const isHero = variant === "hero";
@@ -86,7 +94,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
         >
           <div>
             <label className="lc-label" htmlFor={`${variant}-nombre`}>
-              {isHero ? "Nombre completo *" : "Nombre *"}
+              Nombre completo *
             </label>
             <input
               id={`${variant}-nombre`}
@@ -94,6 +102,18 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
               type="text"
               required
               placeholder="Tu nombre"
+            />
+          </div>
+          <div>
+            <label className="lc-label" htmlFor={`${variant}-empresa`}>
+              Empresa *
+            </label>
+            <input
+              id={`${variant}-empresa`}
+              className="lc-input"
+              type="text"
+              required
+              placeholder="Nombre de tu empresa"
             />
           </div>
           <div>
@@ -108,61 +128,27 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
               placeholder="10 dígitos"
             />
           </div>
-          {isHero ? (
-            <div>
-              <label className="lc-label" htmlFor="hero-email">
-                Correo electrónico *
-              </label>
-              <input
-                id="hero-email"
-                className="lc-input"
-                type="email"
-                required
-                placeholder="tucorreo@empresa.com"
-              />
-            </div>
-          ) : null}
           <div>
-            <label className="lc-label" htmlFor={`${variant}-msg`}>
+            <label className="lc-label" htmlFor={`${variant}-sello`}>
               ¿Qué sello necesitas? *
             </label>
-            <textarea
-              id={`${variant}-msg`}
+            <select
+              id={`${variant}-sello`}
               className="lc-input"
               required
-              rows={isHero ? 3 : 2}
-              placeholder={
-                isHero
-                  ? "Número de parte, medidas (DI × DE × ancho) o aplicación"
-                  : "Número de parte, medidas o aplicación"
-              }
-              style={{ resize: "vertical" }}
-            />
-          </div>
-
-          {isHero ? (
-            <label
-              style={{
-                display: "flex",
-                gap: 10,
-                alignItems: "flex-start",
-                fontSize: "0.92rem",
-                color: "var(--text-body)",
-                cursor: "pointer",
-              }}
+              defaultValue=""
+              style={{ cursor: "pointer" }}
             >
-              <input
-                type="checkbox"
-                style={{
-                  marginTop: 3,
-                  width: 18,
-                  height: 18,
-                  accentColor: "var(--brand)",
-                }}
-              />
-              <span>Necesito fabricación a medida o sello especial CNC</span>
-            </label>
-          ) : null}
+              <option value="" disabled>
+                Selecciona una opción
+              </option>
+              {SELLO_OPTIONS.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <button
             type="submit"

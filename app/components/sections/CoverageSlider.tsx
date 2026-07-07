@@ -53,9 +53,9 @@ export function CoverageSlider() {
         >
           <div style={{ maxWidth: 620 }}>
             <p className="lc-eyebrow" style={{ color: "var(--brand-press)" }}>
-              Cobertura nacional · 12 sucursales
+              Cobertura Nacional
             </p>
-            <h2 className="lc-h2">Nuestras sucursales</h2>
+            <h2 className="lc-h2">12 Sucursales</h2>
             <p
               style={{
                 color: "var(--text-muted)",
@@ -162,22 +162,43 @@ export function CoverageSlider() {
                 <a
                   href={`tel:+52${b.phone.replace(/\D/g, "")}`}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
                     color: "var(--ink-900)",
                     fontWeight: 600,
                     textDecoration: "none",
                   }}
                 >
-                  ✆ {b.phone}
+                  <span
+                    style={{
+                      fontSize: "1.75rem",
+                      lineHeight: 1,
+                      flexShrink: 0,
+                      transform: "translateY(-0.135em)",
+                    }}
+                  >
+                    ✆
+                  </span>
+                  {b.phone}
                 </a>
                 <a
                   href={`mailto:${b.email}`}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
                     color: "var(--text-muted)",
                     textDecoration: "none",
                     wordBreak: "break-all",
                   }}
                 >
-                  ✉ {b.email}
+                  <span
+                    style={{ fontSize: "1.75rem", lineHeight: 1, flexShrink: 0 }}
+                  >
+                    ✉
+                  </span>
+                  {b.email}
                 </a>
               </div>
             </div>
