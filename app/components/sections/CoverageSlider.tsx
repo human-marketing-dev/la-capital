@@ -159,15 +159,13 @@ export function CoverageSlider() {
                   fontSize: "0.9rem",
                 }}
               >
-                <a
-                  href={`tel:+52${b.phone.replace(/\D/g, "")}`}
+                <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
                     color: "var(--ink-900)",
                     fontWeight: 600,
-                    textDecoration: "none",
                   }}
                 >
                   <span
@@ -181,25 +179,28 @@ export function CoverageSlider() {
                     ✆
                   </span>
                   {b.phone}
-                </a>
-                <a
-                  href={`mailto:${b.email}`}
+                </div>
+                <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
                     color: "var(--text-muted)",
-                    textDecoration: "none",
                     wordBreak: "break-all",
                   }}
                 >
                   <span
-                    style={{ fontSize: "1.75rem", lineHeight: 1, flexShrink: 0 }}
+                    style={{
+                      fontSize: "1.75rem",
+                      lineHeight: 1,
+                      flexShrink: 0,
+                      transform: "translateY(-0.194em)",
+                    }}
                   >
                     ✉
                   </span>
                   {b.email}
-                </a>
+                </div>
               </div>
             </div>
           ))}
