@@ -73,21 +73,9 @@ export default function FabricacionLanding() {
             "Entrega rápida",
           ]}
           cta={
-            <>
-              <Button variant="brand" size="lg" href="#cotizar">
-                Cotizar mi sello a medida
-              </Button>
-              <Button
-                variant="wa"
-                size="lg"
-                href={waLink(WA_MESSAGES.fabricacion)}
-                target="_blank"
-                rel="noopener noreferrer"
-                icon={<WhatsAppIcon size={18} />}
-              >
-                Enviar plano por WhatsApp
-              </Button>
-            </>
+            <Button variant="brand" size="lg" href="#cotizar">
+              Cotizar mi sello a medida
+            </Button>
           }
           form={<FabricacionForm variant="hero" />}
         />
@@ -101,7 +89,7 @@ export default function FabricacionLanding() {
         />
         <RespaldoCatalogo />
         <Industries />
-        <ClientLogos />
+        <ClientLogos background="white" />
         <ClosingCta
           title="Envíanos tu plano y fabricamos tu sello a medida."
           subtitle="Cuéntanos qué necesitas —medidas, material, aplicación o el sello descontinuado que buscas— y te respondemos con cotización y asesoría de ingeniería."

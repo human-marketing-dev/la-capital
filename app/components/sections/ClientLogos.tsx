@@ -14,13 +14,21 @@ const LOGOS = [
   { src: "/Logo_cliente_6.webp", w: 1305, h: 419 },
 ];
 
-export function ClientLogos() {
+export function ClientLogos({
+  background = "brand",
+}: {
+  background?: "brand" | "white";
+}) {
+  const onBrand = background === "brand";
   const loop = [...LOGOS, ...LOGOS];
   return (
-    <section style={{ background: "var(--brand)" }}>
+    <section style={{ background: onBrand ? "var(--brand)" : "#fff" }}>
       <div className="lc-container lc-section-tight">
         <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <p className="lc-eyebrow" style={{ color: "rgba(14,15,16,.62)" }}>
+          <p
+            className="lc-eyebrow"
+            style={{ color: onBrand ? "rgba(14,15,16,.62)" : "var(--brand-press)" }}
+          >
             Nuestros Clientes
           </p>
           <h3 className="lc-h3" style={{ marginTop: 10 }}>
@@ -28,7 +36,7 @@ export function ClientLogos() {
           </h3>
         </div>
 
-        <div className="lc-marquee lc-marquee--on-brand">
+        <div className={onBrand ? "lc-marquee lc-marquee--on-brand" : "lc-marquee"}>
           <div className="lc-marquee__track">
             {loop.map((logo, i) => (
               <div
