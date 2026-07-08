@@ -19,4 +19,6 @@ export const WA_MESSAGES = {
   visit: "Hola, quiero agendar una visita técnica",
   partNumber: "Hola, tengo un número de parte y necesito el equivalente",
   application: "Hola, quiero contarles mi aplicación para encontrar el sello",
+  fabricacion:
+    "Hola, quiero enviar mi plano/muestra para fabricar un sello a la medida",
 } as const;

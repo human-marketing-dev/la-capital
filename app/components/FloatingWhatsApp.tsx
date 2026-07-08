@@ -3,11 +3,17 @@ import { waLink, WA_MESSAGES } from "../lib/site";
 
 /* Always-present primary action. The pulse is the single looping element in
    the system (disabled under prefers-reduced-motion via the .lc-pulse rule). */
-export function FloatingWhatsApp() {
+export function FloatingWhatsApp({
+  message = WA_MESSAGES.quote,
+  ariaLabel = "Cotizar por WhatsApp",
+}: {
+  message?: string;
+  ariaLabel?: string;
+} = {}) {
   return (
     <a
-      href={waLink(WA_MESSAGES.quote)}
-      aria-label="Cotizar por WhatsApp"
+      href={waLink(message)}
+      aria-label={ariaLabel}
       target="_blank"
       rel="noopener noreferrer"
       className="lc-pulse"

@@ -518,6 +518,18 @@ img {
   width: clamp(150px, 40vw, 200px);
   scroll-snap-align: start;
 }
+
+/* Single-branch local block: wide map | info card (stacks on mobile). */
+.lc-branch-solo {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+}
+@media (max-width: 760px) {
+  .lc-branch-solo {
+    grid-template-columns: 1fr;
+  }
+}
 @media (min-width: 640px) {
   .lc-slider-card {
     width: calc((100% - 20px) / 2);

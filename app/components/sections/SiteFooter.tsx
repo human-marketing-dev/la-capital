@@ -28,7 +28,17 @@ const colList: CSSProperties = {
   gap: 10,
 };
 
-export function SiteFooter() {
+const NATIONAL_COVERAGE = [
+  "12 sucursales en México",
+  "Envío nacional e internacional",
+  "Visita técnica en sitio",
+];
+
+export function SiteFooter({
+  coverageLines = NATIONAL_COVERAGE,
+}: {
+  coverageLines?: string[];
+}) {
   return (
     <footer style={{ background: "var(--ink-900)", color: "var(--gray-300)" }}>
       <div
@@ -86,9 +96,11 @@ export function SiteFooter() {
         <div>
           <div style={heading}>Cobertura</div>
           <div style={colList}>
-            <span style={link}>12 sucursales en México</span>
-            <span style={link}>Envío nacional e internacional</span>
-            <span style={link}>Visita técnica en sitio</span>
+            {coverageLines.map((line) => (
+              <span key={line} style={link}>
+                {line}
+              </span>
+            ))}
           </div>
         </div>
       </div>

@@ -25,7 +25,38 @@ function HeroBadge({ children }: { children: ReactNode }) {
   );
 }
 
-export function Hero() {
+type HeroProps = {
+  eyebrow?: string;
+  titleLead?: string;
+  titleHighlight?: string;
+  titleTail?: string;
+  subtitle?: string;
+  chips?: string[];
+  cta?: ReactNode;
+  form?: ReactNode;
+};
+
+const DEFAULT_CHIPS = [
+  "+40,000 en stock",
+  "Desde 1 pieza",
+  "Asesoría técnica",
+  "ISO 9001:2015",
+];
+
+export function Hero({
+  eyebrow = "Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings",
+  titleLead = "Sellos hidráulicos e industriales: el que tu equipo necesita,",
+  titleHighlight = "lo tenemos o lo fabricamos",
+  titleTail = ".",
+  subtitle = "Más de 40,000 sellos industriales de marcas premium, listos para enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos.",
+  chips = DEFAULT_CHIPS,
+  cta = (
+    <Button variant="outline-light" size="lg" href={PHONE_HREF}>
+      Llamar ahora
+    </Button>
+  ),
+  form = <LeadForm variant="hero" />,
+}: HeroProps) {
   return (
     <section style={{ position: "relative", color: "#fff", overflow: "hidden" }}>
       {/* Industrial photography in the background (O-rings close-up). */}
@@ -58,7 +89,7 @@ export function Hero() {
             className="lc-eyebrow"
             style={{ color: "var(--brand)", marginBottom: 18 }}
           >
-            Sellos hidráulicos · neumáticos · retenes · O-rings
+            {eyebrow}
           </p>
           <h1
             style={{
@@ -72,8 +103,9 @@ export function Hero() {
               textWrap: "balance",
             }}
           >
-            El sello que tu equipo necesita:{" "}
-            <span style={{ color: "var(--brand)" }}>lo tenemos o lo fabricamos</span>
+            {titleLead}{" "}
+            <span style={{ color: "var(--brand)" }}>{titleHighlight}</span>
+            {titleTail}
           </h1>
           <p
             style={{
@@ -84,9 +116,7 @@ export function Hero() {
               marginTop: 18,
             }}
           >
-            Más de 40,000 sellos en inventario de marcas premium, listos para
-            enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida
-            es especial, también la fabricamos.
+            {subtitle}
           </p>
 
           <div
@@ -97,10 +127,9 @@ export function Hero() {
               marginTop: 22,
             }}
           >
-            <HeroBadge>+40,000 en stock</HeroBadge>
-            <HeroBadge>Desde 1 pieza</HeroBadge>
-            <HeroBadge>Asesoría técnica</HeroBadge>
-            <HeroBadge>ISO 9001:2015</HeroBadge>
+            {chips.map((c) => (
+              <HeroBadge key={c}>{c}</HeroBadge>
+            ))}
           </div>
 
           <div
@@ -112,13 +141,11 @@ export function Hero() {
               alignItems: "center",
             }}
           >
-            <Button variant="outline-light" size="lg" href={PHONE_HREF}>
-              Llamar ahora
-            </Button>
+            {cta}
           </div>
         </div>
 
-        <LeadForm variant="hero" />
+        {form}
       </div>
     </section>
   );

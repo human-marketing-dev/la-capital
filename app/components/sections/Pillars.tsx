@@ -5,7 +5,9 @@ import { PillarCard } from "../PillarCard";
    photo. Aligned to lead-gen — no Capital GO / "mismo día" promise. Pillar 03
    is the technical-advisory differentiator. The quality certifications (moved
    here from the old "Respaldo de calidad" section) sit inline below the cards. */
-const PILLARS = [
+type Pillar = { number: string; title: string; body: string };
+
+const NATIONAL_PILLARS: Pillar[] = [
   {
     number: "01",
     title: "+40,000 sellos disponibles",
@@ -31,7 +33,15 @@ const CERTS = [
   { src: "/logo-kastas-la-capital-blanco.webp", alt: "Kastaş" },
 ];
 
-export function Pillars() {
+export function Pillars({
+  eyebrow = "¿Por qué elegir La Capital?",
+  title = "Tu aliado en soluciones de sellado",
+  pillars = NATIONAL_PILLARS,
+}: {
+  eyebrow?: string;
+  title?: string;
+  pillars?: Pillar[];
+}) {
   return (
     <section
       style={{ position: "relative", overflow: "hidden", color: "#fff" }}
@@ -64,15 +74,15 @@ export function Pillars() {
           style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 44px" }}
         >
           <p className="lc-eyebrow" style={{ color: "var(--brand)" }}>
-            ¿Por qué elegir La Capital?
+            {eyebrow}
           </p>
           <h2 className="lc-h2" style={{ color: "#fff" }}>
-            Tu aliado en soluciones de sellado
+            {title}
           </h2>
         </div>
 
         <div className="lc-grid-3">
-          {PILLARS.map((p) => (
+          {pillars.map((p) => (
             <PillarCard key={p.number} number={p.number} title={p.title}>
               {p.body}
             </PillarCard>

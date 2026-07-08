@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Button } from "../Button";
 import { LeadForm } from "../LeadForm";
 import { WhatsAppIcon } from "../icons";
@@ -10,8 +11,26 @@ import {
 } from "../../lib/site";
 
 /* Closing CTA — the one large flat yellow fill in the system. Dark hazard
-   stripe at the top, last lead-capture form on the right. */
-export function ClosingCta() {
+   stripe at the top, last lead-capture form on the right. Title/subtitle are
+   overridable per landing; `directionsHref` adds a "Cómo llegar" button (used by
+   the local/branch variants to drive foot traffic). `buttons` and `form` slots
+   let a campaign swap the channels + form (e.g. the a-medida/CNC variant uses a
+   "Enviar plano" form). */
+type ClosingCtaProps = {
+  title?: string;
+  subtitle?: string;
+  directionsHref?: string;
+  buttons?: ReactNode;
+  form?: ReactNode;
+};
+
+export function ClosingCta({
+  title = "¿Listo para resolver tu sellado? Cotiza ahora.",
+  subtitle = "Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica.",
+  directionsHref,
+  buttons,
+  form = <LeadForm variant="cta" />,
+}: ClosingCtaProps) {
   return (
     <section
       id="cotizar"
@@ -39,7 +58,7 @@ export function ClosingCta() {
               textTransform: "uppercase",
             }}
           >
-            ¿Listo para resolver tu sellado? Cotiza ahora.
+            {title}
           </h2>
           <p
             style={{
@@ -50,8 +69,7 @@ export function ClosingCta() {
               color: "rgba(14,15,16,.78)",
             }}
           >
-            Envíanos tu número de parte, medidas o aplicación y te respondemos con
-            asesoría técnica.
+            {subtitle}
           </p>
           <div
             style={{
@@ -61,18 +79,32 @@ export function ClosingCta() {
               marginTop: 24,
             }}
           >
-            <Button
-              variant="wa"
-              href={waLink(WA_MESSAGES.quote)}
-              target="_blank"
-              rel="noopener noreferrer"
-              icon={<WhatsAppIcon size={18} />}
-            >
-              WhatsApp
-            </Button>
-            <Button variant="outline-ink" href={PHONE_HREF}>
-              Llamar {PHONE_DISPLAY}
-            </Button>
+            {buttons ?? (
+              <>
+                <Button
+                  variant="wa"
+                  href={waLink(WA_MESSAGES.quote)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon={<WhatsAppIcon size={18} />}
+                >
+                  WhatsApp
+                </Button>
+                <Button variant="outline-ink" href={PHONE_HREF}>
+                  Llamar {PHONE_DISPLAY}
+                </Button>
+                {directionsHref ? (
+                  <Button
+                    variant="dark"
+                    href={directionsHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Cómo llegar
+                  </Button>
+                ) : null}
+              </>
+            )}
           </div>
           <p
             style={{
@@ -94,7 +126,7 @@ export function ClosingCta() {
           </p>
         </div>
 
-        <LeadForm variant="cta" />
+        {form}
       </div>
     </section>
   );

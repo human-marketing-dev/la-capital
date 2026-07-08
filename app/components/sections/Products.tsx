@@ -15,7 +15,7 @@ type Product = {
 const PRODUCTS: Product[] = [
   {
     title: "Sellos para vástago y émbolo",
-    body: "Sellos hidráulicos y neumáticos para todo tipo de cilindro.",
+    body: "Sellos hidráulicos de alta presión para todo tipo de cilindro, y neumáticos. Kits de sellos para cilindros hidráulicos.",
     image: "/sellos-hidraulicos.webp",
   },
   {
@@ -30,7 +30,7 @@ const PRODUCTS: Product[] = [
   },
   {
     title: "O-rings y respaldos",
-    body: "Estándar AS568 y métrico, en todos los materiales y medidas.",
+    body: "O-rings (o-ring de goma), tetraseal y respaldos. Estándar AS568 y métrico, en todos los materiales y medidas.",
     image: "/o-rings.webp",
   },
   {
@@ -39,20 +39,24 @@ const PRODUCTS: Product[] = [
     image: "/cordon-nitrilo-70-la-capital.webp",
   },
   {
-    title: "Fabricación a medida (CNC)",
-    body: "¿Medida especial o descontinuada? La fabricamos en CNC, desde 1 pieza.",
+    title: "Fabricación de sellos a medida (CNC)",
+    body: "Fabricamos sellos hidráulicos a medida, especiales o descontinuados, en CNC desde 1 pieza.",
     image: "/La-Capital-Sellos-Hidraulicos-fabricacion-cnc.webp",
   },
 ];
 
 function ProductCard({ title, body, image, objectPosition }: Product) {
   return (
-    <div className="lc-card lc-card--hover" style={{ overflow: "hidden" }}>
+    <div
+      className="lc-card lc-card--hover"
+      style={{ overflow: "hidden", display: "flex", flexDirection: "column" }}
+    >
       <div
         style={{
           position: "relative",
           aspectRatio: "16 / 10",
           background: "#fff",
+          flexShrink: 0,
         }}
       >
         <Image
@@ -72,6 +76,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           padding: 24,
           background: "var(--ink-900)",
           borderTop: "4px solid var(--brand)",
+          flex: 1,
         }}
       >
         <h3
@@ -100,7 +105,11 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
   );
 }
 
-export function Products() {
+export function Products({
+  title = "+40,000 sellos, empaques y retenes industriales en un solo lugar",
+}: {
+  title?: string;
+}) {
   return (
     <section style={{ background: "var(--gray-50)" }}>
       <div className="lc-container lc-section">
@@ -110,9 +119,7 @@ export function Products() {
           <p className="lc-eyebrow" style={{ color: "var(--brand-press)" }}>
             Nuestro Catálogo
           </p>
-          <h2 className="lc-h2">
-            +40,000 soluciones de sellado, en un solo lugar
-          </h2>
+          <h2 className="lc-h2">{title}</h2>
         </div>
 
         <div className="lc-grid-3">
