@@ -37,7 +37,7 @@ type HeroProps = {
 };
 
 const DEFAULT_CHIPS = [
-  "+40,000 en stock",
+  "+45,000 en stock",
   "Desde 1 pieza",
   "Asesoría técnica",
   "ISO 9001:2015",
@@ -45,10 +45,10 @@ const DEFAULT_CHIPS = [
 
 export function Hero({
   eyebrow = "Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings",
-  titleLead = "Sellos hidráulicos e industriales: el que tu equipo necesita,",
+  titleLead = "Sellos hidráulicos y neumáticos: el que tu equipo necesita,",
   titleHighlight = "lo tenemos o lo fabricamos",
   titleTail = ".",
-  subtitle = "Más de 40,000 sellos industriales de marcas premium, listos para enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos.",
+  subtitle = "Más de 45,000 sellos industriales de marcas premium, listos para enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos.",
   chips = DEFAULT_CHIPS,
   cta = (
     <Button variant="outline-light" size="lg" href={PHONE_HREF}>

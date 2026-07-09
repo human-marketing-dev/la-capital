@@ -27,12 +27,12 @@ export const metadata: Metadata = {
     template: "%s · La Capital",
   },
   description:
-    "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +40,000 sellos en inventario de marcas premium, listos para enviar, con asesoría técnica. Sellos hidráulicos, neumáticos, retenes y O-rings.",
+    "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +45,000 sellos en inventario de marcas premium, listos para enviar, con asesoría técnica. Sellos hidráulicos, neumáticos, retenes y O-rings.",
   metadataBase: new URL("https://selloslacapital.com"),
   openGraph: {
     title: "La Capital — Sellos hidráulicos, neumáticos y retenes",
     description:
-      "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +40,000 sellos en inventario, con asesoría técnica. Soluciones para la industria.",
+      "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +45,000 sellos en inventario, con asesoría técnica. Soluciones para la industria.",
     locale: "es_MX",
     type: "website",
   },

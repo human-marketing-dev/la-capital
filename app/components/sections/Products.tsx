@@ -106,7 +106,7 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
 }
 
 export function Products({
-  title = "+40,000 sellos, empaques y retenes industriales en un solo lugar",
+  title = "+45,000 sellos, empaques y retenes industriales en un solo lugar",
 }: {
   title?: string;
 }) {

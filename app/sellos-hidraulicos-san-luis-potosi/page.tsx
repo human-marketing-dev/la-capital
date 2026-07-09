@@ -10,12 +10,11 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
-import { mapsLink } from "../lib/branches";
 
 export const metadata: Metadata = {
-  title: "Sellos hidráulicos en San Luis Potosí | La Capital — +40,000 en stock",
+  title: "Sellos hidráulicos en San Luis Potosí | La Capital — +45,000 en stock",
   description:
-    "Sellos hidráulicos, neumáticos, empaques y retenes industriales en San Luis Potosí. +40,000 en inventario o fabricación a medida. Cotiza con asesoría técnica. Sucursal en Col. Industrias.",
+    "Sellos hidráulicos, neumáticos, empaques y retenes industriales en San Luis Potosí. +45,000 en inventario o fabricación a medida. Cotiza con asesoría técnica. Sucursal en Col. Industrias.",
 };
 
 /* Campaña 3 · Sucursal San Luis Potosí — local variant of the national landing.
@@ -31,10 +30,9 @@ const SLP_BRANCHES = [
 ];
 
 const SLP_STATS = [
-  { value: "+40,000", label: "Sellos y empaques en inventario" },
+  { value: "+45,000", label: "Sellos y empaques en inventario" },
   { value: "+20", suffix: "años", label: "Líderes en el mercado" },
   { value: "Sucursal", label: "en San Luis Potosí" },
-  { value: "ISO", label: "9001:2015" },
 ];
 
 export default function SanLuisPotosiLanding() {
@@ -45,10 +43,10 @@ export default function SanLuisPotosiLanding() {
         <Hero
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en San Luis Potosí"
           titleLead="Sellos hidráulicos en San Luis Potosí: el que tu equipo necesita,"
-          subtitle="Más de 40,000 sellos industriales de marcas premium, listos para entregar en San Luis Potosí. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en San Luis Potosí. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
         />
         <TrustBar stats={SLP_STATS} />
-        <Products title="+40,000 sellos, empaques y retenes industriales en San Luis Potosí" />
+        <Products title="+45,000 sellos, empaques y retenes industriales en San Luis Potosí" />
         <Pillars />
         <Industries />
         <ClientLogos />
@@ -60,7 +58,6 @@ export default function SanLuisPotosiLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en San Luis Potosí? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita nuestra sucursal."
-          directionsHref={mapsLink(SLP_BRANCHES[0].addr)}
         />
       </main>
       <SiteFooter

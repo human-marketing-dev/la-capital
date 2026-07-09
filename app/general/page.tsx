@@ -12,9 +12,9 @@ import { SiteFooter } from "../components/sections/SiteFooter";
 import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
 
 export const metadata: Metadata = {
-  title: "Sellos hidráulicos e industriales — La Capital",
+  title: "Sellos hidráulicos y neumáticos — La Capital",
   description:
-    "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +40,000 sellos industriales de marcas premium, con asesoría técnica. Sellos hidráulicos, neumáticos, retenes y O-rings.",
+    "El sello que tu equipo necesita: lo tenemos o lo fabricamos. +45,000 sellos industriales de marcas premium, con asesoría técnica. Sellos hidráulicos, neumáticos, retenes y O-rings.",
 };
 
 /* LP Campaña 1 · General · Industrial — conversion-first lead-capture landing

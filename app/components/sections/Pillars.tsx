@@ -10,7 +10,7 @@ type Pillar = { number: string; title: string; body: string };
 const NATIONAL_PILLARS: Pillar[] = [
   {
     number: "01",
-    title: "+40,000 sellos disponibles",
+    title: "+45,000 sellos disponibles",
     body: "Inventario inmediato de marcas premium — listo para enviar.",
   },
   {

@@ -34,13 +34,12 @@ const G2_STATS = [
   { value: "[XX] mm", label: "Diámetro máximo de fabricación" },
   { value: "+20", suffix: "años", label: "Fabricando sellos especiales" },
   { value: "Desde 1", label: "Pieza mínima de fabricación" },
-  { value: "ISO", label: "9001:2015" },
 ];
 
 const G2_PILLARS = [
   {
     number: "01",
-    title: "Asesoría de ingeniería",
+    title: "Asesoría técnica",
     body: "Te ayudamos a definir material, perfil y tolerancias para que el sello funcione a la primera. No solo fabricamos: resolvemos.",
   },
   {
@@ -50,7 +49,7 @@ const G2_PILLARS = [
   },
   {
     number: "03",
-    title: "Respaldo de +40,000 productos",
+    title: "Respaldo de +45,000 productos",
     body: "No somos un taller improvisado: somos la empresa de sellado más completa de México, con +20 años e ISO 9001:2015.",
   },
 ];

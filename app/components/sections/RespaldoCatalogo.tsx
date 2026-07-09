@@ -28,7 +28,7 @@ export function RespaldoCatalogo() {
               color: "var(--ink-900)",
             }}
           >
-            Además de fabricar, tenemos +40,000 sellos en inventario
+            Además de fabricar, tenemos +45,000 sellos en inventario
           </h3>
           <p
             style={{
@@ -45,7 +45,7 @@ export function RespaldoCatalogo() {
           </p>
           <p style={{ marginTop: 18 }}>
             <Link
-              href="/general"
+              href="/general#cotizar"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,

@@ -2,24 +2,17 @@ import type { ReactNode } from "react";
 import { Button } from "../Button";
 import { LeadForm } from "../LeadForm";
 import { WhatsAppIcon } from "../icons";
-import {
-  PHONE_DISPLAY,
-  PHONE_HREF,
-  WHATSAPP_DISPLAY,
-  waLink,
-  WA_MESSAGES,
-} from "../../lib/site";
+import { PHONE_DISPLAY, PHONE_HREF, waLink, WA_MESSAGES } from "../../lib/site";
 
 /* Closing CTA — the one large flat yellow fill in the system. Dark hazard
    stripe at the top, last lead-capture form on the right. Title/subtitle are
-   overridable per landing; `directionsHref` adds a "Cómo llegar" button (used by
-   the local/branch variants to drive foot traffic). `buttons` and `form` slots
-   let a campaign swap the channels + form (e.g. the a-medida/CNC variant uses a
-   "Enviar plano" form). */
+   overridable per landing; the `buttons` and `form` slots let a campaign swap
+   the channels + form (e.g. the a-medida/CNC variant uses a "Enviar plano"
+   form). Branch landings surface "Cómo llegar" per sucursal in LocalBranches,
+   not here. */
 type ClosingCtaProps = {
   title?: string;
   subtitle?: string;
-  directionsHref?: string;
   buttons?: ReactNode;
   form?: ReactNode;
 };
@@ -27,7 +20,6 @@ type ClosingCtaProps = {
 export function ClosingCta({
   title = "¿Listo para resolver tu sellado? Cotiza ahora.",
   subtitle = "Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica.",
-  directionsHref,
   buttons,
   form = <LeadForm variant="cta" />,
 }: ClosingCtaProps) {
@@ -93,37 +85,9 @@ export function ClosingCta({
                 <Button variant="outline-ink" href={PHONE_HREF}>
                   Llamar {PHONE_DISPLAY}
                 </Button>
-                {directionsHref ? (
-                  <Button
-                    variant="dark"
-                    href={directionsHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Cómo llegar
-                  </Button>
-                ) : null}
               </>
             )}
           </div>
-          <p
-            style={{
-              marginTop: 16,
-              fontSize: "0.92rem",
-              color: "rgba(14,15,16,.72)",
-            }}
-          >
-            O escríbenos por WhatsApp al{" "}
-            <a
-              href={waLink(WA_MESSAGES.quote)}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontWeight: 700, color: "var(--ink-900)" }}
-            >
-              {WHATSAPP_DISPLAY}
-            </a>
-            .
-          </p>
         </div>
 
         {form}

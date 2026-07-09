@@ -10,12 +10,11 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
-import { mapsLink } from "../lib/branches";
 
 export const metadata: Metadata = {
-  title: "Sellos hidráulicos en Guadalajara | La Capital — +40,000 en stock",
+  title: "Sellos hidráulicos en Guadalajara | La Capital — +45,000 en stock",
   description:
-    "Sellos hidráulicos, neumáticos, empaques y retenes industriales en Guadalajara. +40,000 en inventario o fabricación a medida. Cotiza con asesoría técnica. 2 sucursales.",
+    "Sellos hidráulicos, neumáticos, empaques y retenes industriales en Guadalajara. +45,000 en inventario o fabricación a medida. Cotiza con asesoría técnica. 2 sucursales.",
 };
 
 /* Campaña 4 · Sucursal Guadalajara — local variant of the national landing.
@@ -38,10 +37,9 @@ const GDL_BRANCHES = [
 ];
 
 const GDL_STATS = [
-  { value: "+40,000", label: "Sellos y empaques en inventario" },
+  { value: "+45,000", label: "Sellos y empaques en inventario" },
   { value: "+20", suffix: "años", label: "Líderes en el mercado" },
   { value: "2", label: "Sucursales en Guadalajara" },
-  { value: "ISO", label: "9001:2015" },
 ];
 
 export default function GuadalajaraLanding() {
@@ -52,10 +50,10 @@ export default function GuadalajaraLanding() {
         <Hero
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en Guadalajara"
           titleLead="Sellos hidráulicos en Guadalajara: el que tu equipo necesita,"
-          subtitle="Más de 40,000 sellos industriales de marcas premium, listos para entregar en Guadalajara. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en Guadalajara. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
         />
         <TrustBar stats={GDL_STATS} />
-        <Products title="+40,000 sellos, empaques y retenes industriales en Guadalajara" />
+        <Products title="+45,000 sellos, empaques y retenes industriales en Guadalajara" />
         <Pillars />
         <Industries />
         <ClientLogos />
@@ -67,7 +65,6 @@ export default function GuadalajaraLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en Guadalajara? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita cualquiera de nuestras dos sucursales."
-          directionsHref={mapsLink(GDL_BRANCHES[0].addr)}
         />
       </main>
       <SiteFooter
