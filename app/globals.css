@@ -235,16 +235,28 @@ img {
   place-items: center;
   cursor: pointer;
   box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45);
+  /* Hidden until the widget is revealed (JS adds .wa-widget--revealed at 3s). */
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
   transition:
-    background 0.15s ease,
-    transform 0.15s ease;
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    background 0.15s ease;
+}
+.wa-widget--revealed .wa-fab {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
 .wa-fab:hover {
   background: var(--whatsapp-700);
+}
+.wa-widget--revealed .wa-fab:hover {
   transform: scale(1.05);
 }
-/* Pulse for attention only while the card is closed. */
-.wa-widget:not(.is-open) .wa-fab {
+/* Pulse for attention only while revealed and the card is closed. */
+.wa-widget--revealed:not(.is-open) .wa-fab {
   animation: lc-pulse 2.4s infinite;
 }
 
@@ -368,7 +380,9 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wa-widget:not(.is-open) .wa-fab {
+  /* No pulse and no fade/scale — but the 3s reveal delay (JS) still applies,
+     so the FAB simply appears at 3s. */
+  .wa-widget--revealed:not(.is-open) .wa-fab {
     animation: none !important;
   }
 }

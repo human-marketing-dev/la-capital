@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { WhatsAppIcon } from "../icons";
 import { pushEvent } from "../../lib/tracking";
@@ -25,7 +25,15 @@ export function WhatsAppWidget({
   welcomeText,
 }: WhatsAppWidgetProps) {
   const [open, setOpen] = useState(false);
+  // The FAB stays hidden for the first 3s, then fades/scales in (the delay
+  // applies even under reduced motion; only the transition is dropped there).
+  const [revealed, setRevealed] = useState(false);
   const panelId = useId();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setRevealed(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // api.whatsapp.com wants digits only; a literal "+" in the query would be
   // decoded as a space. Keep the "+" for display, strip it for the link.
@@ -39,7 +47,11 @@ export function WhatsAppWidget({
   };
 
   return (
-    <div className={`wa-widget${open ? " is-open" : ""}`}>
+    <div
+      className={`wa-widget${revealed ? " wa-widget--revealed" : ""}${
+        open ? " is-open" : ""
+      }`}
+    >
       <div className="wa-chat" id={panelId} role="dialog" aria-label={`Chat de ${businessName}`}>
         <div className="wa-chat-header">
           <div className="wa-chat-avatar">
