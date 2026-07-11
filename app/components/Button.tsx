@@ -1,8 +1,13 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+"use client";
+
+import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
+import { pushEvent } from "../lib/tracking";
 
 /* La Capital button. Conversion-first: `wa` (WhatsApp green) is the primary
    action, `brand` (yellow) is the submit/brand action, `dark`/outlines are
-   secondary. Hover/press are handled entirely in CSS (see globals.css). */
+   secondary. Hover/press are handled entirely in CSS (see globals.css).
+   Pass `track="<event>"` to fire that measurement event on click (via the
+   central tracking helper) — used for tel:, "cómo llegar" and WhatsApp CTAs. */
 type Variant =
   | "wa"
   | "brand"
@@ -34,6 +39,8 @@ type BaseProps = {
   icon?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Measurement event fired on click via the central tracking helper. */
+  track?: string;
 };
 
 type AnchorProps = BaseProps &
@@ -61,15 +68,25 @@ export function Button(props: AnchorProps | ButtonElProps) {
     icon,
     children,
     className,
+    track,
+    onClick,
     ...rest
   } = props;
 
   const cls = classes(variant, size, full, className);
 
+  const handleClick =
+    track || onClick
+      ? (e: MouseEvent<HTMLElement>) => {
+          if (track) pushEvent(track);
+          (onClick as ((ev: MouseEvent<HTMLElement>) => void) | undefined)?.(e);
+        }
+      : undefined;
+
   if ("href" in props && props.href !== undefined) {
-    const { href, ...anchorRest } = rest as AnchorProps;
+    const { href, ...anchorRest } = rest as Omit<AnchorProps, keyof BaseProps>;
     return (
-      <a href={href} className={cls} {...anchorRest}>
+      <a href={href} className={cls} onClick={handleClick} {...anchorRest}>
         {icon}
         {children}
       </a>
@@ -77,7 +94,11 @@ export function Button(props: AnchorProps | ButtonElProps) {
   }
 
   return (
-    <button className={cls} {...(rest as ButtonElProps)}>
+    <button
+      className={cls}
+      onClick={handleClick}
+      {...(rest as Omit<ButtonElProps, keyof BaseProps>)}
+    >
       {icon}
       {children}
     </button>

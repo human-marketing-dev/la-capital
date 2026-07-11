@@ -51,7 +51,12 @@ export function Hero({
   subtitle = "Más de 45,000 sellos industriales de marcas premium, listos para enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos.",
   chips = DEFAULT_CHIPS,
   cta = (
-    <Button variant="outline-light" size="lg" href={PHONE_HREF}>
+    <Button
+      variant="outline-light"
+      size="lg"
+      href={PHONE_HREF}
+      track="phone_number_click"
+    >
       Llamar ahora
     </Button>
   ),

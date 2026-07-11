@@ -79,10 +79,15 @@ export function ClosingCta({
                   target="_blank"
                   rel="noopener noreferrer"
                   icon={<WhatsAppIcon size={18} />}
+                  track="whatsapp_click"
                 >
                   WhatsApp
                 </Button>
-                <Button variant="outline-ink" href={PHONE_HREF}>
+                <Button
+                  variant="outline-ink"
+                  href={PHONE_HREF}
+                  track="phone_number_click"
+                >
                   Llamar {PHONE_DISPLAY}
                 </Button>
               </>

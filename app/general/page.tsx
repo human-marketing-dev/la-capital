@@ -9,7 +9,8 @@ import { ClientLogos } from "../components/sections/ClientLogos";
 import { CoverageSlider } from "../components/sections/CoverageSlider";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
-import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
+import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
+import { WHATSAPP_E164, WA_MESSAGES } from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos y neumáticos — La Capital",
@@ -38,7 +39,13 @@ export default function GeneralLanding() {
         <ClosingCta />
       </main>
       <SiteFooter />
-      <FloatingWhatsApp />
+      <WhatsAppWidget
+        phone={WHATSAPP_E164}
+        message={WA_MESSAGES.quote}
+        businessName="La Capital"
+        logoSrc="/logo-la-capital.png"
+        welcomeText="¡Hola! 👋 ¿Buscas un sello específico? Cuéntanos qué necesitas (número de parte, medida o aplicación) y te cotizamos con asesoría técnica."
+      />
     </>
   );
 }

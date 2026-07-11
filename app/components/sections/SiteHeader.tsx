@@ -36,6 +36,7 @@ export function SiteHeader() {
           variant="brand"
           size="sm"
           href={PHONE_HREF}
+          track="phone_number_click"
           icon={
             <span
               style={{

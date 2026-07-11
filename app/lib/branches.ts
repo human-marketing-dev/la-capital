@@ -129,7 +129,10 @@ export function mapsLink(addr: string): string {
   )}`;
 }
 
-/** Strip the local phone to digits and prefix 52 for wa.me. */
+/** Strip the local phone to digits and prefix 52 for wa.me.
+    NOTE: currently unused (no branch WhatsApp buttons are rendered). When a
+    button that uses this is added, pass `track="whatsapp_click"` to <Button>
+    (or use <TrackedLink>) so it fires the event via the central helper. */
 export function branchWa(whatsapp: string): string {
   return `https://wa.me/52${whatsapp.replace(/\D/g, "")}`;
 }

@@ -9,7 +9,8 @@ import { ClientLogos } from "../components/sections/ClientLogos";
 import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
-import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
+import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
+import { WHATSAPP_E164 } from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en San Luis Potosí | La Capital — +45,000 en stock",
@@ -67,7 +68,13 @@ export default function SanLuisPotosiLanding() {
           "Visita técnica en sitio",
         ]}
       />
-      <FloatingWhatsApp />
+      <WhatsAppWidget
+        phone={WHATSAPP_E164}
+        message="Hola, necesito cotizar sellos en San Luis Potosí"
+        businessName="La Capital"
+        logoSrc="/logo-la-capital.png"
+        welcomeText="¡Hola! 👋 ¿Buscas tu sello en San Luis Potosí? Escríbenos qué necesitas y te atendemos con inventario local y asesoría técnica."
+      />
     </>
   );
 }

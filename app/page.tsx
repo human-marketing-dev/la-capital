@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { TrackedLink } from "./components/TrackedLink";
 import { PHONE_DISPLAY, PHONE_HREF } from "./lib/site";
 
 /* Brand placeholder for the site root. The campaign landing pages each live on
@@ -64,14 +65,15 @@ export default function Home() {
             marginTop: 30,
           }}
         >
-          <a
+          <TrackedLink
+            event="phone_number_click"
             href={PHONE_HREF}
             className="lc-btn lc-btn--brand lc-btn--lg"
             style={{ textDecoration: "none" }}
           >
             <span style={{ fontSize: "1.4rem", lineHeight: 1 }}>✆</span>
             {PHONE_DISPLAY}
-          </a>
+          </TrackedLink>
         </div>
       </div>
     </main>

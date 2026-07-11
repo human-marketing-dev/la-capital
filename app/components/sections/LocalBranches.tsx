@@ -84,6 +84,7 @@ function BranchBody({ b }: { b: LocalBranch }) {
           target="_blank"
           rel="noopener noreferrer"
           icon={<Pin />}
+          track="Como_Llegar"
         >
           Cómo llegar
         </Button>

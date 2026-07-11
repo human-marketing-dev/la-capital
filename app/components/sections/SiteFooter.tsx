@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { TrackedLink } from "../TrackedLink";
 import {
   PHONE_DISPLAY,
   PHONE_HREF,
@@ -75,17 +76,18 @@ export function SiteFooter({
         <div>
           <div style={heading}>Contacto</div>
           <div style={colList}>
-            <a href={PHONE_HREF} style={link}>
+            <TrackedLink event="phone_number_click" href={PHONE_HREF} style={link}>
               ✆ {PHONE_DISPLAY}
-            </a>
-            <a
+            </TrackedLink>
+            <TrackedLink
+              event="whatsapp_click"
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
               style={link}
             >
               WhatsApp {WHATSAPP_DISPLAY}
-            </a>
+            </TrackedLink>
             <a href={`mailto:${EMAIL}`} style={link}>
               {EMAIL}
             </a>

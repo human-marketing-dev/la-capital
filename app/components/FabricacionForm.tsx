@@ -1,6 +1,14 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import {
+  PERSIST_KEYS,
+  normalizeEmail,
+  normalizePhoneMX,
+  pushEvent,
+  sha256,
+  usePersistedAttribution,
+} from "../lib/tracking";
 
 /* Lead-capture form for the a-medida / CNC campaign (C1|G2). Styled placeholder
    for the real HubSpot embed (pending). The operational differentiator vs the
@@ -30,6 +38,27 @@ export function FabricacionForm({
 }) {
   const isHero = variant === "hero";
   const [sent, setSent] = useState(false);
+  const attribution = usePersistedAttribution();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const telefono = String(fd.get("telefono") ?? "");
+    const correo = String(fd.get("correo") ?? "");
+    const payload: Record<string, unknown> = {
+      nombre: String(fd.get("nombre") ?? ""),
+      empresa: String(fd.get("empresa") ?? ""),
+      describe: String(fd.get("describe") ?? ""),
+      sha256_phone_number: telefono
+        ? await sha256(normalizePhoneMX(telefono))
+        : "",
+    };
+    if (correo) {
+      payload.sha256_email_address = await sha256(normalizeEmail(correo));
+    }
+    pushEvent("generate_lead", payload);
+    setSent(true);
+  }
 
   const cardStyle: CSSProperties = {
     background: "#fff",
@@ -77,10 +106,7 @@ export function FabricacionForm({
         </p>
       ) : (
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSent(true);
-          }}
+          onSubmit={handleSubmit}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -88,12 +114,23 @@ export function FabricacionForm({
             marginTop: isHero ? 20 : 0,
           }}
         >
+          {/* Attribution hidden fields — sent with the lead to its destination. */}
+          {PERSIST_KEYS.map((k) => (
+            <input
+              key={k}
+              type="hidden"
+              name={k}
+              value={attribution[k] ?? ""}
+              readOnly
+            />
+          ))}
           <div>
             <label className="lc-label" htmlFor={`${variant}-fab-nombre`}>
               Nombre completo *
             </label>
             <input
               id={`${variant}-fab-nombre`}
+              name="nombre"
               className="lc-input"
               type="text"
               required
@@ -106,6 +143,7 @@ export function FabricacionForm({
             </label>
             <input
               id={`${variant}-fab-empresa`}
+              name="empresa"
               className="lc-input"
               type="text"
               required
@@ -118,6 +156,7 @@ export function FabricacionForm({
             </label>
             <input
               id={`${variant}-fab-tel`}
+              name="telefono"
               className="lc-input"
               type="tel"
               required
@@ -131,6 +170,7 @@ export function FabricacionForm({
               </label>
               <input
                 id={`${variant}-fab-correo`}
+                name="correo"
                 className="lc-input"
                 type="email"
                 required
@@ -144,6 +184,7 @@ export function FabricacionForm({
             </label>
             <textarea
               id={`${variant}-fab-desc`}
+              name="describe"
               className="lc-input"
               required
               rows={isHero ? 3 : 2}
@@ -157,6 +198,7 @@ export function FabricacionForm({
             </label>
             <input
               id={`${variant}-fab-file`}
+              name="adjunto"
               className="lc-input"
               type="file"
               accept=".pdf,.png,.jpg,.jpeg,.webp,.dwg,.dxf,.step,.stp"

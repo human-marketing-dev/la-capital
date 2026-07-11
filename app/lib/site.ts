@@ -5,6 +5,7 @@ export const PHONE_DISPLAY = "(81) 8331-6346";
 export const PHONE_HREF = "tel:+528183316346";
 
 export const WHATSAPP_NUMBER = "528115826194";
+export const WHATSAPP_E164 = "+528115826194";
 export const WHATSAPP_DISPLAY = "811 582 6194";
 export const EMAIL = "ventas@la-capital.com.mx";
 

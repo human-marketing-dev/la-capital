@@ -10,11 +10,17 @@ import { Industries } from "../components/sections/Industries";
 import { ClientLogos } from "../components/sections/ClientLogos";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
-import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
+import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
 import { FabricacionForm } from "../components/FabricacionForm";
 import { Button } from "../components/Button";
 import { WhatsAppIcon } from "../components/icons";
-import { PHONE_DISPLAY, PHONE_HREF, waLink, WA_MESSAGES } from "../lib/site";
+import {
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  waLink,
+  WA_MESSAGES,
+  WHATSAPP_E164,
+} from "../lib/site";
 
 export const metadata: Metadata = {
   title:
@@ -100,10 +106,15 @@ export default function FabricacionLanding() {
                 target="_blank"
                 rel="noopener noreferrer"
                 icon={<WhatsAppIcon size={18} />}
+                track="whatsapp_click"
               >
                 Enviar plano por WhatsApp
               </Button>
-              <Button variant="outline-ink" href={PHONE_HREF}>
+              <Button
+                variant="outline-ink"
+                href={PHONE_HREF}
+                track="phone_number_click"
+              >
                 Llamar {PHONE_DISPLAY}
               </Button>
             </>
@@ -112,9 +123,12 @@ export default function FabricacionLanding() {
         />
       </main>
       <SiteFooter />
-      <FloatingWhatsApp
+      <WhatsAppWidget
+        phone={WHATSAPP_E164}
         message={WA_MESSAGES.fabricacion}
-        ariaLabel="Enviar mi plano por WhatsApp"
+        businessName="La Capital"
+        logoSrc="/logo-la-capital.png"
+        welcomeText="¡Hola! 👋 ¿Necesitas fabricar un sello a medida? Envíanos tu plano, muestra o medidas y te cotizamos con asesoría de ingeniería."
       />
     </>
   );

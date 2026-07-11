@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Oswald, Barlow } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { TrackingInit } from "./components/TrackingInit";
 import "./globals.css";
 
 /* Display = Oswald (condensed industrial headlines, matches the compressed
@@ -45,7 +48,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${oswald.variable} ${barlow.variable}`}>
-      <body>{children}</body>
+      <GoogleTagManager gtmId="GTM-K6JPZKH" />
+      <body>
+        {children}
+        <Suspense fallback={null}>
+          <TrackingInit />
+        </Suspense>
+      </body>
     </html>
   );
 }

@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import {
+  PERSIST_KEYS,
+  normalizePhoneMX,
+  pushEvent,
+  sha256,
+  usePersistedAttribution,
+} from "../lib/tracking";
 
 /* Lead-capture form. Styled placeholder for the real HubSpot embed (pending
    from client) — captures nothing server-side yet; on submit it shows a local
@@ -35,6 +42,24 @@ const SELLO_OPTIONS = [
 export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
   const isHero = variant === "hero";
   const [sent, setSent] = useState(false);
+  // Attribution params for hidden fields (client-only, no hydration mismatch).
+  const attribution = usePersistedAttribution();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const telefono = String(fd.get("telefono") ?? "");
+    // Lead reaches its destination in the clear; the dataLayer never does.
+    pushEvent("generate_lead", {
+      nombre: String(fd.get("nombre") ?? ""),
+      empresa: String(fd.get("empresa") ?? ""),
+      sello: String(fd.get("sello") ?? ""),
+      sha256_phone_number: telefono
+        ? await sha256(normalizePhoneMX(telefono))
+        : "",
+    });
+    setSent(true);
+  }
 
   const cardStyle: CSSProperties = {
     background: "#fff",
@@ -81,10 +106,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
         </p>
       ) : (
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSent(true);
-          }}
+          onSubmit={handleSubmit}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -92,12 +114,23 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
             marginTop: isHero ? 20 : 0,
           }}
         >
+          {/* Attribution hidden fields — sent with the lead to its destination. */}
+          {PERSIST_KEYS.map((k) => (
+            <input
+              key={k}
+              type="hidden"
+              name={k}
+              value={attribution[k] ?? ""}
+              readOnly
+            />
+          ))}
           <div>
             <label className="lc-label" htmlFor={`${variant}-nombre`}>
               Nombre completo *
             </label>
             <input
               id={`${variant}-nombre`}
+              name="nombre"
               className="lc-input"
               type="text"
               required
@@ -110,6 +143,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
             </label>
             <input
               id={`${variant}-empresa`}
+              name="empresa"
               className="lc-input"
               type="text"
               required
@@ -122,6 +156,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
             </label>
             <input
               id={`${variant}-tel`}
+              name="telefono"
               className="lc-input"
               type="tel"
               required
@@ -134,6 +169,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
             </label>
             <select
               id={`${variant}-sello`}
+              name="sello"
               className="lc-input"
               required
               defaultValue=""

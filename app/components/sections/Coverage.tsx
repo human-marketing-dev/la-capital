@@ -33,6 +33,7 @@ export function Coverage() {
             target="_blank"
             rel="noopener noreferrer"
             style={{ marginTop: 24 }}
+            track="whatsapp_click"
           >
             Agendar visita técnica
           </Button>

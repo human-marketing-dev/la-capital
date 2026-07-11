@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TrackedLink } from "../TrackedLink";
 
 /* Secondary "respaldo" strip for the a-medida / CNC landing (C1|G2). The
    catalog/inventory is kept — but demoted from a conversion grid to a brief
@@ -44,7 +44,8 @@ export function RespaldoCatalogo() {
             listo para enviar. Fabricamos lo que no existe; surtimos lo que sí.
           </p>
           <p style={{ marginTop: 18 }}>
-            <Link
+            <TrackedLink
+              event="click_catalogo"
               href="/general#cotizar"
               style={{
                 fontFamily: "var(--font-display)",
@@ -56,7 +57,7 @@ export function RespaldoCatalogo() {
               }}
             >
               ¿Buscas un sello de catálogo? Ver inventario general →
-            </Link>
+            </TrackedLink>
           </p>
         </div>
       </div>
