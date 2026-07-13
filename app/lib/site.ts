@@ -14,6 +14,14 @@ export function waLink(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
+/** Same as waLink but for a specific number (any format; non-digits stripped) —
+    used by local landings that route WhatsApp to a branch number. */
+export function waLinkTo(number: string, message: string): string {
+  return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(
+    message,
+  )}`;
+}
+
 export const WA_MESSAGES = {
   quote: "Hola, necesito cotizar sellos",
   product: "Hola, busco un producto específico",

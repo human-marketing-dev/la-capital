@@ -15,7 +15,7 @@ const CAPACIDADES = [
   },
   {
     title: "Sellos de gran diámetro",
-    body: "Hasta [XX] mm Ø — para maquinaria pesada e industrial.",
+    body: "Hasta 3000 mm Ø — para maquinaria pesada e industrial.",
   },
   {
     title: "Perfiles especiales y descontinuados",

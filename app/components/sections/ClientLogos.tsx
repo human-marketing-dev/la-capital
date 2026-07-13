@@ -1,17 +1,36 @@
 import Image from "next/image";
 
 /* Institutional social proof — "Empresas que ya sellan con La Capital".
-   Auto-scrolling grayscale logo marquee; the set is rendered twice so the CSS
-   animation loops seamlessly at -50%. Logos are black-on-transparent in /public.
-   PENDING from client: final logos + written authorization to display each brand. */
-const LOGO_H = 46;
+   Auto-scrolling logo marquee; the set is rendered twice so the CSS animation
+   loops seamlessly at -50%. Logos are client brand marks on a 300×300 square
+   canvas in /public. PENDING from client: written authorization to display each. */
+const LOGO_H = 160;
+const LOGO_SIZE = 300; // all logos share a 300×300 canvas
 const LOGOS = [
-  { src: "/Logo_cliente_1.webp", w: 1294, h: 232 },
-  { src: "/Logo_cliente_2.webp", w: 1289, h: 232 },
-  { src: "/Logo_cliente_3.webp", w: 1316, h: 415 },
-  { src: "/Logo_cliente_4.webp", w: 1304, h: 334 },
-  { src: "/Logo_cliente_5.webp", w: 1294, h: 432 },
-  { src: "/Logo_cliente_6.webp", w: 1305, h: 419 },
+  { src: "/aceros-del-toro-logo.webp", alt: "Aceros del Toro" },
+  { src: "/acs-internacional-logo.webp", alt: "ACS Internacional" },
+  { src: "/agmex-logo.webp", alt: "Agmex" },
+  { src: "/bridgestone-logo.webp", alt: "Bridgestone" },
+  { src: "/can-am-brp-logo.webp", alt: "Can-Am (BRP)" },
+  { src: "/cuprum-logo.webp", alt: "Cuprum" },
+  { src: "/dacomsa-logo.webp", alt: "Dacomsa" },
+  { src: "/fluidmaster-logo.webp", alt: "Fluidmaster" },
+  { src: "/general-electric-grid-solutions-logo.webp", alt: "General Electric Grid Solutions" },
+  { src: "/grote-industries-logo.webp", alt: "Grote Industries" },
+  { src: "/haldex-logo.webp", alt: "Haldex" },
+  { src: "/ilpea-logo.webp", alt: "Ilpea" },
+  { src: "/indalum-logo.webp", alt: "Indalum" },
+  { src: "/mysapsa-logo.webp", alt: "Mysapsa" },
+  { src: "/pinturas-berel-logo.webp", alt: "Pinturas Berel" },
+  { src: "/plastiexports-logo.webp", alt: "Plastiexports" },
+  { src: "/prolamsa-logo.webp", alt: "Prolamsa" },
+  { src: "/prosankin-logo.webp", alt: "Prosankin" },
+  { src: "/swissmex-logo.webp", alt: "Swissmex" },
+  { src: "/techint-logo.webp", alt: "Techint" },
+  { src: "/ternium-logo.webp", alt: "Ternium" },
+  { src: "/thermo-fisher-logo.webp", alt: "Thermo Fisher" },
+  { src: "/vitro-logo.webp", alt: "Vitro" },
+  { src: "/whirlpool-logo.webp", alt: "Whirlpool" },
 ];
 
 export function ClientLogos({
@@ -46,9 +65,10 @@ export function ClientLogos({
               >
                 <Image
                   src={logo.src}
-                  alt="Logotipo de cliente de La Capital"
-                  width={logo.w}
-                  height={logo.h}
+                  alt={logo.alt}
+                  title={logo.alt}
+                  width={LOGO_SIZE}
+                  height={LOGO_SIZE}
                   style={{ height: LOGO_H, width: "auto" }}
                 />
               </div>

@@ -37,8 +37,12 @@ const NATIONAL_COVERAGE = [
 
 export function SiteFooter({
   coverageLines = NATIONAL_COVERAGE,
+  waNumber = WHATSAPP_NUMBER,
+  waDisplay = WHATSAPP_DISPLAY,
 }: {
   coverageLines?: string[];
+  waNumber?: string;
+  waDisplay?: string;
 }) {
   return (
     <footer style={{ background: "var(--ink-900)", color: "var(--gray-300)" }}>
@@ -81,12 +85,12 @@ export function SiteFooter({
             </TrackedLink>
             <TrackedLink
               event="whatsapp_click"
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              href={`https://wa.me/${waNumber.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
               style={link}
             >
-              WhatsApp {WHATSAPP_DISPLAY}
+              WhatsApp {waDisplay}
             </TrackedLink>
             <a href={`mailto:${EMAIL}`} style={link}>
               {EMAIL}

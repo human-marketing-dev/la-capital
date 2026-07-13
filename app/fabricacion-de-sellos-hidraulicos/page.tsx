@@ -34,10 +34,10 @@ export const metadata: Metadata = {
    proceso, capacidad), the catalog is demoted to a trust signal (RespaldoCatalogo)
    with reverse-routing to /general. Reuses shared components via props; adds two
    G2-only blocks (Proceso, CapacidadFabricacion) and a fabrication form with file
-   upload. PENDING (César): CNC max diameter [XX] mm; typical fabrication lead
-   time; HubSpot attachment support. */
+   upload. CNC max diameter confirmed at 3000 mm. PENDING (César): typical
+   fabrication lead time; HubSpot attachment support. */
 const G2_STATS = [
-  { value: "[XX] mm", label: "Diámetro máximo de fabricación" },
+  { value: "3000 mm", label: "Diámetro máximo de fabricación" },
   { value: "+20", suffix: "años", label: "Fabricando sellos especiales" },
   { value: "Desde 1", label: "Pieza mínima de fabricación" },
 ];
@@ -70,10 +70,10 @@ export default function FabricacionLanding() {
           titleLead="Fabricamos tu sello hidráulico"
           titleHighlight="a la medida"
           titleTail=", aunque ya no exista en el mercado."
-          subtitle="¿Sello descontinuado, medida especial o pieza única? Lo fabricamos en CNC a partir de tu plano o muestra física. Ingeniería, materiales premium y entrega rápida. Desde una sola pieza y hasta [XX] mm de diámetro."
+          subtitle="¿Sello descontinuado, medida especial o pieza única? Lo fabricamos en CNC a partir de tu plano o muestra física. Ingeniería, materiales premium y entrega rápida. Desde una sola pieza y hasta 3000 mm de diámetro."
           chips={[
             "Desde tu plano o muestra",
-            "Hasta [XX] mm Ø",
+            "Hasta 3000 mm Ø",
             "Desde 1 pieza",
             "Entrega rápida",
           ]}

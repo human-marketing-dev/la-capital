@@ -831,7 +831,7 @@ img {
   display: flex;
   align-items: center;
   width: max-content;
-  animation: lc-scroll 32s linear infinite;
+  animation: lc-scroll 120s linear infinite;
 }
 .lc-marquee:hover .lc-marquee__track {
   animation-play-state: paused;

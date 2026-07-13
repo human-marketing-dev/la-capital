@@ -2,19 +2,27 @@ import type { ReactNode } from "react";
 import { Button } from "../Button";
 import { LeadForm } from "../LeadForm";
 import { WhatsAppIcon } from "../icons";
-import { PHONE_DISPLAY, PHONE_HREF, waLink, WA_MESSAGES } from "../../lib/site";
+import {
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  waLink,
+  waLinkTo,
+  WA_MESSAGES,
+} from "../../lib/site";
 
 /* Closing CTA — the one large flat yellow fill in the system. Dark hazard
    stripe at the top, last lead-capture form on the right. Title/subtitle are
    overridable per landing; the `buttons` and `form` slots let a campaign swap
    the channels + form (e.g. the a-medida/CNC variant uses a "Enviar plano"
-   form). Branch landings surface "Cómo llegar" per sucursal in LocalBranches,
-   not here. */
+   form). `waNumber` routes the default WhatsApp button to a branch number on
+   local landings. Branch landings surface "Cómo llegar" per sucursal in
+   LocalBranches, not here. */
 type ClosingCtaProps = {
   title?: string;
   subtitle?: string;
   buttons?: ReactNode;
   form?: ReactNode;
+  waNumber?: string;
 };
 
 export function ClosingCta({
@@ -22,7 +30,11 @@ export function ClosingCta({
   subtitle = "Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica.",
   buttons,
   form = <LeadForm variant="cta" />,
+  waNumber,
 }: ClosingCtaProps) {
+  const waHref = waNumber
+    ? waLinkTo(waNumber, WA_MESSAGES.quote)
+    : waLink(WA_MESSAGES.quote);
   return (
     <section
       id="cotizar"
@@ -75,7 +87,7 @@ export function ClosingCta({
               <>
                 <Button
                   variant="wa"
-                  href={waLink(WA_MESSAGES.quote)}
+                  href={waHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   icon={<WhatsAppIcon size={18} />}

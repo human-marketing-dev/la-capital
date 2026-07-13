@@ -10,7 +10,10 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
-import { WHATSAPP_E164 } from "../lib/site";
+
+// WhatsApp de Guadalajara (ambas sucursales) — enruta widget, CTA final y footer.
+const GDL_WA = "+523321545693";
+const GDL_WA_DISPLAY = "332 154 5693";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en Guadalajara | La Capital — +45,000 en stock",
@@ -66,6 +69,7 @@ export default function GuadalajaraLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en Guadalajara? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita cualquiera de nuestras dos sucursales."
+          waNumber={GDL_WA}
         />
       </main>
       <SiteFooter
@@ -74,9 +78,11 @@ export default function GuadalajaraLanding() {
           "Envío nacional e internacional",
           "Visita técnica en sitio",
         ]}
+        waNumber={GDL_WA}
+        waDisplay={GDL_WA_DISPLAY}
       />
       <WhatsAppWidget
-        phone={WHATSAPP_E164}
+        phone={GDL_WA}
         message="Hola, necesito cotizar sellos en Guadalajara"
         businessName="La Capital"
         logoSrc="/logo-la-capital.png"

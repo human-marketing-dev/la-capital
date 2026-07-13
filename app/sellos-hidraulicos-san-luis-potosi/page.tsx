@@ -10,7 +10,10 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
-import { WHATSAPP_E164 } from "../lib/site";
+
+// WhatsApp de la sucursal SLP — enruta widget, CTA final y footer.
+const SLP_WA = "+524445789524";
+const SLP_WA_DISPLAY = "444 578 9524";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en San Luis Potosí | La Capital — +45,000 en stock",
@@ -59,6 +62,7 @@ export default function SanLuisPotosiLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en San Luis Potosí? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita nuestra sucursal."
+          waNumber={SLP_WA}
         />
       </main>
       <SiteFooter
@@ -67,9 +71,11 @@ export default function SanLuisPotosiLanding() {
           "Envío nacional e internacional",
           "Visita técnica en sitio",
         ]}
+        waNumber={SLP_WA}
+        waDisplay={SLP_WA_DISPLAY}
       />
       <WhatsAppWidget
-        phone={WHATSAPP_E164}
+        phone={SLP_WA}
         message="Hola, necesito cotizar sellos en San Luis Potosí"
         businessName="La Capital"
         logoSrc="/logo-la-capital.png"
