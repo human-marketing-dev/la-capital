@@ -10,10 +10,11 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
-
-// WhatsApp de Guadalajara (ambas sucursales) — enruta widget, CTA final y footer.
-const GDL_WA = "+523321545693";
-const GDL_WA_DISPLAY = "332 154 5693";
+import {
+  WHATSAPP_E164,
+  PHONE_GDL_DISPLAY,
+  PHONE_GDL_HREF,
+} from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en Guadalajara | La Capital — +45,000 en stock",
@@ -30,12 +31,14 @@ const GDL_BRANCHES = [
     name: "La Capital Guadalajara (Zona Industrial)",
     addr: "Av. 8 de Julio #2686, Zona Industrial, Guadalajara, Jal.",
     phone: "(33) 2469-8034",
+    whatsapp: "(33) 2154-5693",
     email: "guadalajara@la-capital.com.mx",
   },
   {
     name: "La Capital Guadalajara (Circunvalación)",
     addr: "Av. Circunvalación Agustín Yáñez 379-A, Ferrocarril, 44440, Guadalajara, Jal.",
-    phone: "(33) 3619-0205",
+    phone: "(33) 3619-0205 / (33) 3619-6528",
+    whatsapp: "(33) 2925-7621",
     email: "guadalajara2@la-capital.com.mx",
   },
 ];
@@ -49,12 +52,16 @@ const GDL_STATS = [
 export default function GuadalajaraLanding() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader
+        phoneDisplay={PHONE_GDL_DISPLAY}
+        phoneHref={PHONE_GDL_HREF}
+      />
       <main>
         <Hero
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en Guadalajara"
           titleLead="Sellos hidráulicos en Guadalajara: el que tu equipo necesita,"
           subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en Guadalajara. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          phoneHref={PHONE_GDL_HREF}
         />
         <TrustBar stats={GDL_STATS} />
         <Products title="+45,000 sellos, empaques y retenes industriales en Guadalajara" />
@@ -69,7 +76,8 @@ export default function GuadalajaraLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en Guadalajara? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita cualquiera de nuestras dos sucursales."
-          waNumber={GDL_WA}
+          phoneDisplay={PHONE_GDL_DISPLAY}
+          phoneHref={PHONE_GDL_HREF}
         />
       </main>
       <SiteFooter
@@ -78,11 +86,11 @@ export default function GuadalajaraLanding() {
           "Envío nacional e internacional",
           "Visita técnica en sitio",
         ]}
-        waNumber={GDL_WA}
-        waDisplay={GDL_WA_DISPLAY}
+        phoneDisplay={PHONE_GDL_DISPLAY}
+        phoneHref={PHONE_GDL_HREF}
       />
       <WhatsAppWidget
-        phone={GDL_WA}
+        phone={WHATSAPP_E164}
         message="Hola, necesito cotizar sellos en Guadalajara"
         businessName="La Capital"
         logoSrc="/logo-la-capital.png"

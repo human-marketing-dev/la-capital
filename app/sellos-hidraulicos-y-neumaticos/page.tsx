@@ -19,8 +19,9 @@ export const metadata: Metadata = {
 };
 
 /* LP Campaña 1 · General · Industrial — conversion-first lead-capture landing
-   for La Capital. Lives at /general (the home "/" is a brand placeholder; each
-   campaign gets its own route). Block order:
+   for La Capital. Lives at /sellos-hidraulicos-y-neumaticos (the home "/" is a
+   brand placeholder; each campaign gets its own route). Old /general 308-redirects
+   here (see next.config.ts). Block order:
    header · hero+form · trust bar · productos/catálogo · ¿por qué elegir La Capital?
    (con respaldo de calidad inline) · industrias (slider) · nuestros clientes (logos) ·
    sucursales (slider) · CTA cierre+form · footer. Plus floating WhatsApp. */

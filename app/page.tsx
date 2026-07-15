@@ -3,7 +3,8 @@ import { TrackedLink } from "./components/TrackedLink";
 import { PHONE_DISPLAY, PHONE_HREF } from "./lib/site";
 
 /* Brand placeholder for the site root. The campaign landing pages each live on
-   their own route (e.g. /general); this "/" is a holding page for now. */
+   their own route (e.g. /sellos-hidraulicos-y-neumaticos); this "/" is a holding
+   page for now. */
 export default function Home() {
   return (
     <main

@@ -23,6 +23,8 @@ type ClosingCtaProps = {
   buttons?: ReactNode;
   form?: ReactNode;
   waNumber?: string;
+  phoneDisplay?: string;
+  phoneHref?: string;
 };
 
 export function ClosingCta({
@@ -31,6 +33,8 @@ export function ClosingCta({
   buttons,
   form = <LeadForm variant="cta" />,
   waNumber,
+  phoneDisplay = PHONE_DISPLAY,
+  phoneHref = PHONE_HREF,
 }: ClosingCtaProps) {
   const waHref = waNumber
     ? waLinkTo(waNumber, WA_MESSAGES.quote)
@@ -97,10 +101,10 @@ export function ClosingCta({
                 </Button>
                 <Button
                   variant="outline-ink"
-                  href={PHONE_HREF}
+                  href={phoneHref}
                   track="phone_number_click"
                 >
-                  {PHONE_DISPLAY}
+                  Llamar {phoneDisplay}
                 </Button>
               </>
             )}

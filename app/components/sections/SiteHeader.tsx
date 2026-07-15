@@ -3,8 +3,15 @@ import { Button } from "../Button";
 import { PHONE_DISPLAY, PHONE_HREF } from "../../lib/site";
 
 /* Sticky ink header. Logo left; phone button (primary) right. A 45° hazard
-   stripe runs along the bottom edge — the recurring industrial motif. */
-export function SiteHeader() {
+   stripe runs along the bottom edge — the recurring industrial motif. The phone
+   is overridable per landing (city landings route to a local number). */
+export function SiteHeader({
+  phoneDisplay = PHONE_DISPLAY,
+  phoneHref = PHONE_HREF,
+}: {
+  phoneDisplay?: string;
+  phoneHref?: string;
+} = {}) {
   return (
     <header
       style={{
@@ -35,7 +42,7 @@ export function SiteHeader() {
         <Button
           variant="brand"
           size="sm"
-          href={PHONE_HREF}
+          href={phoneHref}
           track="phone_number_click"
           icon={
             <span
@@ -50,7 +57,7 @@ export function SiteHeader() {
             </span>
           }
         >
-          {PHONE_DISPLAY}
+          {phoneDisplay}
         </Button>
       </div>
       <div className="lc-hazard-rule" />

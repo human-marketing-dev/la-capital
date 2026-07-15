@@ -12,6 +12,7 @@ type LocalBranch = {
   addr: string;
   phone: string;
   email: string;
+  whatsapp?: string;
 };
 
 function Pin() {
@@ -73,8 +74,9 @@ function BranchBody({ b }: { b: LocalBranch }) {
         style={{ fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.6 }}
       >
         <div>✆ {b.phone}</div>
+        {b.whatsapp ? <div>WhatsApp: {b.whatsapp}</div> : null}
         <div style={{ wordBreak: "break-all" }}>✉ {b.email}</div>
-        <div>Horario: por confirmar</div>
+        <div>Horario: 8:30 am - 6:00 pm</div>
       </div>
       <div style={{ marginTop: "auto", paddingTop: 8 }}>
         <Button

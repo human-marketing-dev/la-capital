@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import { usePathname } from "next/navigation";
 import {
   PERSIST_KEYS,
   normalizeEmail,
@@ -9,13 +10,15 @@ import {
   sha256,
   usePersistedAttribution,
 } from "../lib/tracking";
+import { SELLO_OPTIONS, origenForPath } from "../lib/leads";
+import { honeypotStyle } from "./formHoneypot";
 
-/* Lead-capture form. Styled placeholder for the real HubSpot embed (pending
-   from client) — captures nothing server-side yet; on submit it shows a local
-   confirmation. Fields (both variants): Nombre completo · Empresa · Teléfono ·
-   Correo electrónico · ¿Qué sello necesitas? (dropdown). The "Fabricación a
-   Medida" option is the routing signal toward the C1|G2 (a-medida) flow.
-   "hero" adds a badge + title. */
+/* Lead-capture form. Submits to /api/lead (Brevo transactional email). Fields
+   (both variants): Nombre completo · Empresa · Teléfono · Correo electrónico ·
+   ¿Qué sello necesitas? (dropdown). The "Fabricación a Medida" option is the
+   routing signal toward the C1|G2 (a-medida) flow. "hero" adds a badge + title.
+   The `generate_lead` dataLayer event fires only on a successful send, with the
+   exact payload GTM already depends on (email/phone hashed, never in clear). */
 const badgeStyle: CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
@@ -32,40 +35,68 @@ const badgeStyle: CSSProperties = {
   marginBottom: 16,
 };
 
-const SELLO_OPTIONS = [
-  "Sellos Hidráulicos",
-  "Sellos Neumáticos",
-  "O-Rings",
-  "Retenes",
-  "Fabricación a Medida",
-  "Otro",
-];
+type Status = "idle" | "sending" | "success" | "error";
 
 export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
   const isHero = variant === "hero";
-  const [sent, setSent] = useState(false);
+  const pathname = usePathname();
+  const [status, setStatus] = useState<Status>("idle");
   // Attribution params for hidden fields (client-only, no hydration mismatch).
   const attribution = usePersistedAttribution();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
     const fd = new FormData(e.currentTarget);
     const telefono = String(fd.get("telefono") ?? "");
     const correo = String(fd.get("correo") ?? "");
     // Lead reaches its destination in the clear; the dataLayer never does.
     const payload: Record<string, unknown> = {
+      formType: "lead",
+      origen: origenForPath(pathname),
+      website: String(fd.get("website") ?? ""),
       nombre: String(fd.get("nombre") ?? ""),
       empresa: String(fd.get("empresa") ?? ""),
+      telefono,
+      correo,
       sello: String(fd.get("sello") ?? ""),
-      sha256_phone_number: telefono
-        ? await sha256(normalizePhoneMX(telefono))
-        : "",
+      ...Object.fromEntries(PERSIST_KEYS.map((k) => [k, String(fd.get(k) ?? "")])),
     };
-    if (correo) {
-      payload.sha256_email_address = await sha256(normalizeEmail(correo));
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        skipped?: boolean;
+      };
+      if (!res.ok || !data.ok) {
+        setStatus("error");
+        return;
+      }
+      // Fire generate_lead only on a real send (not the honeypot skip). Keep the
+      // payload byte-for-byte identical to what GTM already consumes.
+      if (!data.skipped) {
+        const gl: Record<string, unknown> = {
+          nombre: String(fd.get("nombre") ?? ""),
+          empresa: String(fd.get("empresa") ?? ""),
+          sello: String(fd.get("sello") ?? ""),
+          sha256_phone_number: telefono
+            ? await sha256(normalizePhoneMX(telefono))
+            : "",
+        };
+        if (correo) {
+          gl.sha256_email_address = await sha256(normalizeEmail(correo));
+        }
+        pushEvent("generate_lead", gl);
+      }
+      setStatus("success");
+    } catch {
+      setStatus("error");
     }
-    pushEvent("generate_lead", payload);
-    setSent(true);
   }
 
   const cardStyle: CSSProperties = {
@@ -97,7 +128,7 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
         </h2>
       ) : null}
 
-      {sent ? (
+      {status === "success" ? (
         <p
           role="status"
           style={{
@@ -131,6 +162,15 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
               readOnly
             />
           ))}
+          {/* Honeypot — invisible to humans, bots fill it. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={honeypotStyle}
+          />
           <div>
             <label className="lc-label" htmlFor={`${variant}-nombre`}>
               Nombre completo *
@@ -206,15 +246,32 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
             </select>
           </div>
 
+          {status === "error" ? (
+            <p
+              role="alert"
+              style={{
+                margin: 0,
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                color: "#b91c1c",
+              }}
+            >
+              No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por
+              WhatsApp.
+            </p>
+          ) : null}
+
           <button
             type="submit"
+            disabled={status === "sending"}
+            style={status === "sending" ? { opacity: 0.7, cursor: "wait" } : undefined}
             className={
               isHero
                 ? "lc-btn lc-btn--brand lc-btn--full"
                 : "lc-btn lc-btn--dark lc-btn--full"
             }
           >
-            Quiero mi cotización
+            {status === "sending" ? "Enviando…" : "Quiero mi cotización"}
           </button>
 
           {isHero ? (

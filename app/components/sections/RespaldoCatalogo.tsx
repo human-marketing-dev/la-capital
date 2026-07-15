@@ -46,7 +46,7 @@ export function RespaldoCatalogo() {
           <p style={{ marginTop: 18 }}>
             <TrackedLink
               event="click_catalogo"
-              href="/general#cotizar"
+              href="/sellos-hidraulicos-y-neumaticos#cotizar"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,

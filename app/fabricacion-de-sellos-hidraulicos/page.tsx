@@ -32,7 +32,8 @@ export const metadata: Metadata = {
 /* Campaña 1 · Grupo 2 (C1|G2) — Fabricación a medida (CNC), B2B nacional.
    Precision/conversion campaign: fabrication is the protagonist (hero, form,
    proceso, capacidad), the catalog is demoted to a trust signal (RespaldoCatalogo)
-   with reverse-routing to /general. Reuses shared components via props; adds two
+   with reverse-routing to /sellos-hidraulicos-y-neumaticos. Reuses shared
+   components via props; adds two
    G2-only blocks (Proceso, CapacidadFabricacion) and a fabrication form with file
    upload. CNC max diameter confirmed at 3000 mm. PENDING (César): typical
    fabrication lead time; HubSpot attachment support. */

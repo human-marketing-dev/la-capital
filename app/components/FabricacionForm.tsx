@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import { usePathname } from "next/navigation";
 import {
   PERSIST_KEYS,
   normalizeEmail,
@@ -9,12 +10,15 @@ import {
   sha256,
   usePersistedAttribution,
 } from "../lib/tracking";
+import { origenForPath } from "../lib/leads";
+import { honeypotStyle } from "./formHoneypot";
 
-/* Lead-capture form for the a-medida / CNC campaign (C1|G2). Styled placeholder
-   for the real HubSpot embed (pending). The operational differentiator vs the
-   national LeadForm is the file attachment (plano/muestra) + a free-text
-   "describe tu sello" field — the form is oriented to a fabrication PROJECT, not
-   a catalog product. PENDING: confirm HubSpot allows attachments on the embed. */
+/* Lead-capture form for the a-medida / CNC campaign (C1|G2). Submits to
+   /api/lead (Brevo transactional email). Differentiators vs the national
+   LeadForm: a free-text "describe tu sello" field + a file input (plano/muestra)
+   — the file itself is NOT uploaded; the email only notes its filename. The
+   `generate_lead` dataLayer event fires only on a successful send, with the
+   exact payload GTM already depends on (email/phone hashed). */
 const badgeStyle: CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
@@ -31,33 +35,73 @@ const badgeStyle: CSSProperties = {
   marginBottom: 16,
 };
 
+type Status = "idle" | "sending" | "success" | "error";
+
 export function FabricacionForm({
   variant = "hero",
 }: {
   variant?: "hero" | "cta";
 }) {
   const isHero = variant === "hero";
-  const [sent, setSent] = useState(false);
+  const pathname = usePathname();
+  const [status, setStatus] = useState<Status>("idle");
   const attribution = usePersistedAttribution();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
     const fd = new FormData(e.currentTarget);
     const telefono = String(fd.get("telefono") ?? "");
     const correo = String(fd.get("correo") ?? "");
+    const adjunto = fd.get("adjunto");
+    const adjuntoNombre =
+      adjunto instanceof File && adjunto.size > 0 ? adjunto.name : "";
     const payload: Record<string, unknown> = {
+      formType: "fabricacion",
+      origen: origenForPath(pathname),
+      website: String(fd.get("website") ?? ""),
       nombre: String(fd.get("nombre") ?? ""),
       empresa: String(fd.get("empresa") ?? ""),
+      telefono,
+      correo,
       describe: String(fd.get("describe") ?? ""),
-      sha256_phone_number: telefono
-        ? await sha256(normalizePhoneMX(telefono))
-        : "",
+      adjuntoNombre,
+      ...Object.fromEntries(PERSIST_KEYS.map((k) => [k, String(fd.get(k) ?? "")])),
     };
-    if (correo) {
-      payload.sha256_email_address = await sha256(normalizeEmail(correo));
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        skipped?: boolean;
+      };
+      if (!res.ok || !data.ok) {
+        setStatus("error");
+        return;
+      }
+      // Fire generate_lead only on a real send — payload identical to before.
+      if (!data.skipped) {
+        const gl: Record<string, unknown> = {
+          nombre: String(fd.get("nombre") ?? ""),
+          empresa: String(fd.get("empresa") ?? ""),
+          describe: String(fd.get("describe") ?? ""),
+          sha256_phone_number: telefono
+            ? await sha256(normalizePhoneMX(telefono))
+            : "",
+        };
+        if (correo) {
+          gl.sha256_email_address = await sha256(normalizeEmail(correo));
+        }
+        pushEvent("generate_lead", gl);
+      }
+      setStatus("success");
+    } catch {
+      setStatus("error");
     }
-    pushEvent("generate_lead", payload);
-    setSent(true);
   }
 
   const cardStyle: CSSProperties = {
@@ -89,7 +133,7 @@ export function FabricacionForm({
         </h2>
       ) : null}
 
-      {sent ? (
+      {status === "success" ? (
         <p
           role="status"
           style={{
@@ -124,6 +168,15 @@ export function FabricacionForm({
               readOnly
             />
           ))}
+          {/* Honeypot — invisible to humans, bots fill it. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={honeypotStyle}
+          />
           <div>
             <label className="lc-label" htmlFor={`${variant}-fab-nombre`}>
               Nombre completo *
@@ -213,15 +266,32 @@ export function FabricacionForm({
             </p>
           </div>
 
+          {status === "error" ? (
+            <p
+              role="alert"
+              style={{
+                margin: 0,
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                color: "#b91c1c",
+              }}
+            >
+              No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por
+              WhatsApp.
+            </p>
+          ) : null}
+
           <button
             type="submit"
+            disabled={status === "sending"}
+            style={status === "sending" ? { opacity: 0.7, cursor: "wait" } : undefined}
             className={
               isHero
                 ? "lc-btn lc-btn--brand lc-btn--full"
                 : "lc-btn lc-btn--dark lc-btn--full"
             }
           >
-            Quiero mi cotización
+            {status === "sending" ? "Enviando…" : "Quiero mi cotización"}
           </button>
 
           {isHero ? (

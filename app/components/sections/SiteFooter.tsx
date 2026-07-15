@@ -39,10 +39,14 @@ export function SiteFooter({
   coverageLines = NATIONAL_COVERAGE,
   waNumber = WHATSAPP_NUMBER,
   waDisplay = WHATSAPP_DISPLAY,
+  phoneDisplay = PHONE_DISPLAY,
+  phoneHref = PHONE_HREF,
 }: {
   coverageLines?: string[];
   waNumber?: string;
   waDisplay?: string;
+  phoneDisplay?: string;
+  phoneHref?: string;
 }) {
   return (
     <footer style={{ background: "var(--ink-900)", color: "var(--gray-300)" }}>
@@ -80,8 +84,8 @@ export function SiteFooter({
         <div>
           <div style={heading}>Contacto</div>
           <div style={colList}>
-            <TrackedLink event="phone_number_click" href={PHONE_HREF} style={link}>
-              ✆ {PHONE_DISPLAY}
+            <TrackedLink event="phone_number_click" href={phoneHref} style={link}>
+              ✆ {phoneDisplay}
             </TrackedLink>
             <TrackedLink
               opensWhatsAppWidget

@@ -4,6 +4,12 @@
 export const PHONE_DISPLAY = "(81) 8331-6346";
 export const PHONE_HREF = "tel:+528183316346";
 
+// Per-landing phone CTAs (national + fabricación use the default above).
+export const PHONE_GDL_DISPLAY = "(33) 2469-8034";
+export const PHONE_GDL_HREF = "tel:+523324698034";
+export const PHONE_SLP_DISPLAY = "(44) 4476-8767";
+export const PHONE_SLP_HREF = "tel:+524444768767";
+
 export const WHATSAPP_NUMBER = "528115826194";
 export const WHATSAPP_E164 = "+528115826194";
 export const WHATSAPP_DISPLAY = "811 582 6194";

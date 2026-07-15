@@ -10,10 +10,11 @@ import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
-
-// WhatsApp de la sucursal SLP — enruta widget, CTA final y footer.
-const SLP_WA = "+524445789524";
-const SLP_WA_DISPLAY = "444 578 9524";
+import {
+  WHATSAPP_E164,
+  PHONE_SLP_DISPLAY,
+  PHONE_SLP_HREF,
+} from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en San Luis Potosí | La Capital — +45,000 en stock",
@@ -29,6 +30,7 @@ const SLP_BRANCHES = [
     name: "La Capital San Luis Potosí (Col. Industrias)",
     addr: "Boulevard Rocha Cordero #14 (antes #345), Col. Industrias, San Luis Potosí, S.L.P.",
     phone: "(44) 4476-8767",
+    whatsapp: "(44) 4578-9524",
     email: "sanluispotosi@la-capital.com.mx",
   },
 ];
@@ -42,12 +44,16 @@ const SLP_STATS = [
 export default function SanLuisPotosiLanding() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader
+        phoneDisplay={PHONE_SLP_DISPLAY}
+        phoneHref={PHONE_SLP_HREF}
+      />
       <main>
         <Hero
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en San Luis Potosí"
           titleLead="Sellos hidráulicos en San Luis Potosí: el que tu equipo necesita,"
           subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en San Luis Potosí. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          phoneHref={PHONE_SLP_HREF}
         />
         <TrustBar stats={SLP_STATS} />
         <Products title="+45,000 sellos, empaques y retenes industriales en San Luis Potosí" />
@@ -62,7 +68,8 @@ export default function SanLuisPotosiLanding() {
         <ClosingCta
           title="¿Listo para resolver tu sellado en San Luis Potosí? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica. O visita nuestra sucursal."
-          waNumber={SLP_WA}
+          phoneDisplay={PHONE_SLP_DISPLAY}
+          phoneHref={PHONE_SLP_HREF}
         />
       </main>
       <SiteFooter
@@ -71,11 +78,11 @@ export default function SanLuisPotosiLanding() {
           "Envío nacional e internacional",
           "Visita técnica en sitio",
         ]}
-        waNumber={SLP_WA}
-        waDisplay={SLP_WA_DISPLAY}
+        phoneDisplay={PHONE_SLP_DISPLAY}
+        phoneHref={PHONE_SLP_HREF}
       />
       <WhatsAppWidget
-        phone={SLP_WA}
+        phone={WHATSAPP_E164}
         message="Hola, necesito cotizar sellos en San Luis Potosí"
         businessName="La Capital"
         logoSrc="/logo-la-capital.png"
