@@ -91,7 +91,7 @@ export function ClosingCta({
                   target="_blank"
                   rel="noopener noreferrer"
                   icon={<WhatsAppIcon size={18} />}
-                  track="whatsapp_click"
+                  opensWhatsAppWidget
                 >
                   WhatsApp
                 </Button>

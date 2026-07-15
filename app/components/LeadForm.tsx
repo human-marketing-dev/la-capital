@@ -3,6 +3,7 @@
 import { useState, type CSSProperties } from "react";
 import {
   PERSIST_KEYS,
+  normalizeEmail,
   normalizePhoneMX,
   pushEvent,
   sha256,
@@ -12,8 +13,9 @@ import {
 /* Lead-capture form. Styled placeholder for the real HubSpot embed (pending
    from client) — captures nothing server-side yet; on submit it shows a local
    confirmation. Fields (both variants): Nombre completo · Empresa · Teléfono ·
-   ¿Qué sello necesitas? (dropdown). The "Fabricación a Medida" option is the
-   routing signal toward the C1|G2 (a-medida) flow. "hero" adds a badge + title. */
+   Correo electrónico · ¿Qué sello necesitas? (dropdown). The "Fabricación a
+   Medida" option is the routing signal toward the C1|G2 (a-medida) flow.
+   "hero" adds a badge + title. */
 const badgeStyle: CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
@@ -49,15 +51,20 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const telefono = String(fd.get("telefono") ?? "");
+    const correo = String(fd.get("correo") ?? "");
     // Lead reaches its destination in the clear; the dataLayer never does.
-    pushEvent("generate_lead", {
+    const payload: Record<string, unknown> = {
       nombre: String(fd.get("nombre") ?? ""),
       empresa: String(fd.get("empresa") ?? ""),
       sello: String(fd.get("sello") ?? ""),
       sha256_phone_number: telefono
         ? await sha256(normalizePhoneMX(telefono))
         : "",
-    });
+    };
+    if (correo) {
+      payload.sha256_email_address = await sha256(normalizeEmail(correo));
+    }
+    pushEvent("generate_lead", payload);
     setSent(true);
   }
 
@@ -161,6 +168,19 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
               type="tel"
               required
               placeholder="10 dígitos"
+            />
+          </div>
+          <div>
+            <label className="lc-label" htmlFor={`${variant}-correo`}>
+              Correo electrónico *
+            </label>
+            <input
+              id={`${variant}-correo`}
+              name="correo"
+              className="lc-input"
+              type="email"
+              required
+              placeholder="tucorreo@empresa.com"
             />
           </div>
           <div>

@@ -2,6 +2,7 @@
 
 import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
 import { pushEvent } from "../lib/tracking";
+import { openWhatsAppWidget } from "../lib/whatsappWidget";
 
 /* La Capital button. Conversion-first: `wa` (WhatsApp green) is the primary
    action, `brand` (yellow) is the submit/brand action, `dark`/outlines are
@@ -41,6 +42,8 @@ type BaseProps = {
   className?: string;
   /** Measurement event fired on click via the central tracking helper. */
   track?: string;
+  /** Open the floating WhatsApp chat card on click instead of navigating. */
+  opensWhatsAppWidget?: boolean;
 };
 
 type AnchorProps = BaseProps &
@@ -69,6 +72,7 @@ export function Button(props: AnchorProps | ButtonElProps) {
     children,
     className,
     track,
+    opensWhatsAppWidget,
     onClick,
     ...rest
   } = props;
@@ -76,9 +80,14 @@ export function Button(props: AnchorProps | ButtonElProps) {
   const cls = classes(variant, size, full, className);
 
   const handleClick =
-    track || onClick
+    track || opensWhatsAppWidget || onClick
       ? (e: MouseEvent<HTMLElement>) => {
-          if (track) pushEvent(track);
+          if (opensWhatsAppWidget) {
+            e.preventDefault();
+            openWhatsAppWidget();
+          } else if (track) {
+            pushEvent(track);
+          }
           (onClick as ((ev: MouseEvent<HTMLElement>) => void) | undefined)?.(e);
         }
       : undefined;

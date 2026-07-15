@@ -106,7 +106,7 @@ export default function FabricacionLanding() {
                 target="_blank"
                 rel="noopener noreferrer"
                 icon={<WhatsAppIcon size={18} />}
-                track="whatsapp_click"
+                opensWhatsAppWidget
               >
                 Enviar plano por WhatsApp
               </Button>

@@ -84,7 +84,7 @@ export function SiteFooter({
               ✆ {PHONE_DISPLAY}
             </TrackedLink>
             <TrackedLink
-              event="whatsapp_click"
+              opensWhatsAppWidget
               href={`https://wa.me/${waNumber.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"

@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { WhatsAppIcon } from "../icons";
 import { pushEvent } from "../../lib/tracking";
+import { WHATSAPP_WIDGET_OPEN_EVENT } from "../../lib/whatsappWidget";
 
 /* Floating WhatsApp chat widget for the landing pages. Everything is prop-driven
    (no hardcoded number/copy) so each landing can pass its own message. Replaces
@@ -33,6 +34,16 @@ export function WhatsAppWidget({
   useEffect(() => {
     const timer = setTimeout(() => setRevealed(true), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Other WhatsApp entry points (closing CTA, footer) open this same card.
+  useEffect(() => {
+    const onOpen = () => {
+      setRevealed(true);
+      setOpen(true);
+    };
+    window.addEventListener(WHATSAPP_WIDGET_OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(WHATSAPP_WIDGET_OPEN_EVENT, onOpen);
   }, []);
 
   // api.whatsapp.com wants digits only; a literal "+" in the query would be

@@ -163,21 +163,19 @@ export function FabricacionForm({
               placeholder="10 dígitos"
             />
           </div>
-          {isHero ? (
-            <div>
-              <label className="lc-label" htmlFor={`${variant}-fab-correo`}>
-                Correo electrónico *
-              </label>
-              <input
-                id={`${variant}-fab-correo`}
-                name="correo"
-                className="lc-input"
-                type="email"
-                required
-                placeholder="tucorreo@empresa.com"
-              />
-            </div>
-          ) : null}
+          <div>
+            <label className="lc-label" htmlFor={`${variant}-fab-correo`}>
+              Correo electrónico *
+            </label>
+            <input
+              id={`${variant}-fab-correo`}
+              name="correo"
+              className="lc-input"
+              type="email"
+              required
+              placeholder="tucorreo@empresa.com"
+            />
+          </div>
           <div>
             <label className="lc-label" htmlFor={`${variant}-fab-desc`}>
               Describe tu sello *
