@@ -100,7 +100,7 @@ export function ClosingCta({
                   href={PHONE_HREF}
                   track="phone_number_click"
                 >
-                  Llamar {PHONE_DISPLAY}
+                  {PHONE_DISPLAY}
                 </Button>
               </>
             )}

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Button } from "../Button";
 import { LeadForm } from "../LeadForm";
-import { PHONE_HREF } from "../../lib/site";
+import { PHONE_DISPLAY, PHONE_HREF } from "../../lib/site";
 
 function HeroBadge({ children }: { children: ReactNode }) {
   return (
@@ -57,7 +57,7 @@ export function Hero({
       href={PHONE_HREF}
       track="phone_number_click"
     >
-      Llamar ahora
+      {PHONE_DISPLAY}
     </Button>
   ),
   form = <LeadForm variant="hero" />,
