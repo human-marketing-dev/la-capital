@@ -32,6 +32,7 @@ type HeroProps = {
   titleTail?: string;
   subtitle?: string;
   chips?: string[];
+  phoneDisplay?: string;
   phoneHref?: string;
   cta?: ReactNode;
   form?: ReactNode;
@@ -51,6 +52,7 @@ export function Hero({
   titleTail = ".",
   subtitle = "Más de 45,000 sellos industriales de marcas premium, listos para enviar. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos.",
   chips = DEFAULT_CHIPS,
+  phoneDisplay = PHONE_DISPLAY,
   phoneHref = PHONE_HREF,
   cta = (
     <Button
@@ -59,7 +61,7 @@ export function Hero({
       href={phoneHref}
       track="phone_number_click"
     >
-      {PHONE_DISPLAY}
+      {phoneDisplay}
     </Button>
   ),
   form = <LeadForm variant="hero" />,

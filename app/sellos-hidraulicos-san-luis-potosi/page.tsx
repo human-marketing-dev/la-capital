@@ -53,6 +53,7 @@ export default function SanLuisPotosiLanding() {
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en San Luis Potosí"
           titleLead="Sellos hidráulicos en San Luis Potosí: el que tu equipo necesita,"
           subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en San Luis Potosí. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          phoneDisplay={PHONE_SLP_DISPLAY}
           phoneHref={PHONE_SLP_HREF}
         />
         <TrustBar stats={SLP_STATS} />

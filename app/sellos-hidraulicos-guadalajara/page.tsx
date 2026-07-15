@@ -61,6 +61,7 @@ export default function GuadalajaraLanding() {
           eyebrow="Sellos industriales · hidráulicos · neumáticos · empaques · retenes · o-rings en Guadalajara"
           titleLead="Sellos hidráulicos en Guadalajara: el que tu equipo necesita,"
           subtitle="Más de 45,000 sellos industriales de marcas premium, listos para entregar en Guadalajara. Cotización con asesoría técnica, sin compromiso. Y si tu medida es especial, también la fabricamos."
+          phoneDisplay={PHONE_GDL_DISPLAY}
           phoneHref={PHONE_GDL_HREF}
         />
         <TrustBar stats={GDL_STATS} />
