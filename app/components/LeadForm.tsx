@@ -52,23 +52,14 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
     const telefono = String(fd.get("telefono") ?? "");
     const correo = String(fd.get("correo") ?? "");
     // Lead reaches its destination in the clear; the dataLayer never does.
-    const payload: Record<string, unknown> = {
-      formType: "lead",
-      origen: origenForPath(pathname),
-      website: String(fd.get("website") ?? ""),
-      nombre: String(fd.get("nombre") ?? ""),
-      empresa: String(fd.get("empresa") ?? ""),
-      telefono,
-      correo,
-      sello: String(fd.get("sello") ?? ""),
-      ...Object.fromEntries(PERSIST_KEYS.map((k) => [k, String(fd.get(k) ?? "")])),
-    };
+    // The form's own FormData already carries every field (incl. hidden UTM and
+    // the honeypot) — just tag it with the campaign context. Same multipart
+    // contract as the fabricación form, so /api/lead has a single code path.
+    fd.append("formType", "lead");
+    fd.append("origen", origenForPath(pathname));
     try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      // No content-type header: the browser sets the multipart boundary.
+      const res = await fetch("/api/lead", { method: "POST", body: fd });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         skipped?: boolean;

@@ -1,4 +1,7 @@
 import {
+  ATTACHMENT_EXTENSIONS,
+  ATTACHMENT_MAX_BYTES,
+  ATTACHMENT_MIME_TYPES,
   FIELD_LIMITS,
   FORM_TYPES,
   LANDING_ORIGENES,
@@ -6,11 +9,12 @@ import {
 } from "../../lib/leads";
 
 /* Single lead endpoint for both forms (LeadForm + FabricacionForm),
-   differentiated by `formType`. Sends a transactional email via Brevo to the
-   sales inbox(es). Honeypot + server-side validation + HTML escaping. Never
-   exposes Brevo errors to the client. Credentials come from env
-   (BREVO_API_KEY, LEADS_TO_EMAIL); the file itself is NOT sent — the email only
-   notes whether one was attached. */
+   differentiated by `formType`. Both post multipart/form-data (one code path),
+   so the fabricación form can carry its plano/muestra file. Sends a
+   transactional email via Brevo to the sales inbox(es), attaching the file when
+   present. Honeypot + server-side validation + HTML escaping. Never exposes
+   Brevo errors to the client. Credentials come from env (BREVO_API_KEY,
+   LEADS_TO_EMAIL). */
 export const runtime = "nodejs";
 
 const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
@@ -20,7 +24,7 @@ const SENDER = {
 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function str(v: unknown): string {
+function str(v: FormDataEntryValue | null): string {
   return typeof v === "string" ? v : "";
 }
 
@@ -38,28 +42,27 @@ function cell(value: string): string {
 }
 
 export async function POST(request: Request) {
-  let body: Record<string, unknown>;
+  let form: FormData;
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    form = await request.formData();
   } catch {
     return Response.json({ ok: false }, { status: 400 });
   }
 
   // Honeypot: a filled hidden field means a bot. Pretend success, send nothing,
   // and tell the client to skip the generate_lead event.
-  if (str(body.website).trim() !== "") {
+  if (str(form.get("website")).trim() !== "") {
     return Response.json({ ok: true, skipped: true });
   }
 
-  const formType = str(body.formType);
-  const origen = str(body.origen).trim();
-  const nombre = str(body.nombre).trim();
-  const empresa = str(body.empresa).trim();
-  const telefono = str(body.telefono).trim();
-  const correo = str(body.correo).trim();
-  const sello = str(body.sello).trim();
-  const describe = str(body.describe).trim();
-  const adjuntoNombre = str(body.adjuntoNombre).trim();
+  const formType = str(form.get("formType"));
+  const origen = str(form.get("origen")).trim();
+  const nombre = str(form.get("nombre")).trim();
+  const empresa = str(form.get("empresa")).trim();
+  const telefono = str(form.get("telefono")).trim();
+  const correo = str(form.get("correo")).trim();
+  const sello = str(form.get("sello")).trim();
+  const describe = str(form.get("describe")).trim();
 
   const invalid: string[] = [];
   if (!(FORM_TYPES as readonly string[]).includes(formType))
@@ -77,8 +80,23 @@ export async function POST(request: Request) {
     if (!describe || describe.length > FIELD_LIMITS.describe)
       invalid.push("describe");
   }
-  if (adjuntoNombre.length > FIELD_LIMITS.adjuntoNombre)
-    invalid.push("adjuntoNombre");
+
+  // Optional attachment (fabricación only in practice). Validated the same way
+  // as any other field: anything present but invalid is a 400.
+  const uploaded = form.get("adjunto");
+  const file =
+    uploaded instanceof File && uploaded.size > 0 ? uploaded : null;
+  if (file) {
+    const name = file.name ?? "";
+    const dot = name.lastIndexOf(".");
+    const ext = dot >= 0 ? name.slice(dot).toLowerCase() : "";
+    if (file.size > ATTACHMENT_MAX_BYTES) invalid.push("adjunto:size");
+    if (!ATTACHMENT_MIME_TYPES.includes(file.type)) invalid.push("adjunto:type");
+    if (!ATTACHMENT_EXTENSIONS.includes(ext)) invalid.push("adjunto:ext");
+    if (!name || name.length > FIELD_LIMITS.adjuntoNombre)
+      invalid.push("adjunto:name");
+  }
+
   if (invalid.length) {
     return Response.json({ ok: false }, { status: 400 });
   }
@@ -88,7 +106,7 @@ export async function POST(request: Request) {
     console.error("[lead] BREVO_API_KEY is not set");
     return Response.json({ ok: false }, { status: 500 });
   }
-  const recipients = str(process.env.LEADS_TO_EMAIL)
+  const recipients = (process.env.LEADS_TO_EMAIL ?? "")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean)
@@ -113,19 +131,16 @@ export async function POST(request: Request) {
     rows.push(["¿Qué sello necesita?", sello]);
   } else {
     rows.push(["Describe su sello", describe]);
-    rows.push([
-      "Adjuntó archivo",
-      adjuntoNombre ? `Sí — ${adjuntoNombre}` : "No",
-    ]);
+    rows.push(["Adjuntó archivo", file ? `Sí — ${file.name}` : "No"]);
   }
 
   // Attribution — only add rows that carry a value.
   const attribution: Array<[string, string]> = [
-    ["utm_source", str(body.utm_source).trim()],
-    ["utm_medium", str(body.utm_medium).trim()],
-    ["utm_campaign", str(body.utm_campaign).trim()],
-    ["gclid", str(body.gclid).trim()],
-    ["fbclid", str(body.fbclid).trim()],
+    ["utm_source", str(form.get("utm_source")).trim()],
+    ["utm_medium", str(form.get("utm_medium")).trim()],
+    ["utm_campaign", str(form.get("utm_campaign")).trim()],
+    ["gclid", str(form.get("gclid")).trim()],
+    ["fbclid", str(form.get("fbclid")).trim()],
   ];
   for (const [label, value] of attribution) {
     if (value) rows.push([label, value]);
@@ -150,6 +165,19 @@ export async function POST(request: Request) {
     subject,
   )}</h2><table style="border-collapse:collapse;width:100%;max-width:660px;font-size:14px">${rowsHtml}</table></body></html>`;
 
+  const payload: Record<string, unknown> = {
+    sender: SENDER,
+    to: recipients,
+    replyTo: { email: correo, name: nombre },
+    subject,
+    htmlContent,
+  };
+  // Only include `attachment` when a file actually came through.
+  if (file) {
+    const content = Buffer.from(await file.arrayBuffer()).toString("base64");
+    payload.attachment = [{ name: file.name, content }];
+  }
+
   let brevoRes: Response;
   try {
     brevoRes = await fetch(BREVO_ENDPOINT, {
@@ -159,13 +187,7 @@ export async function POST(request: Request) {
         "content-type": "application/json",
         accept: "application/json",
       },
-      body: JSON.stringify({
-        sender: SENDER,
-        to: recipients,
-        replyTo: { email: correo, name: nombre },
-        subject,
-        htmlContent,
-      }),
+      body: JSON.stringify(payload),
     });
   } catch (err) {
     console.error("[lead] Brevo request failed", err);

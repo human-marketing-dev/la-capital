@@ -10,15 +10,40 @@ import {
   sha256,
   usePersistedAttribution,
 } from "../lib/tracking";
-import { origenForPath } from "../lib/leads";
+import {
+  ATTACHMENT_ACCEPT,
+  ATTACHMENT_EXTENSIONS,
+  ATTACHMENT_MAX_BYTES,
+  ATTACHMENT_MAX_LABEL,
+  ATTACHMENT_MIME_TYPES,
+  origenForPath,
+} from "../lib/leads";
 import { honeypotStyle } from "./formHoneypot";
 
-/* Lead-capture form for the a-medida / CNC campaign (C1|G2). Submits to
-   /api/lead (Brevo transactional email). Differentiators vs the national
-   LeadForm: a free-text "describe tu sello" field + a file input (plano/muestra)
-   — the file itself is NOT uploaded; the email only notes its filename. The
-   `generate_lead` dataLayer event fires only on a successful send, with the
-   exact payload GTM already depends on (email/phone hashed). */
+/* Lead-capture form for the a-medida / CNC campaign (C1|G2). Posts
+   multipart/form-data to /api/lead, so the plano/muestra file is uploaded and
+   attached to the Brevo email. Differentiators vs the national LeadForm: a
+   free-text "describe tu sello" field + the file input. The `generate_lead`
+   dataLayer event fires only on a successful send, with the exact payload GTM
+   already depends on (email/phone hashed). */
+const GENERIC_ERROR =
+  "No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.";
+
+/** Client-side mirror of the server rules — immediate feedback, not the gate. */
+function validateFile(file: File): string {
+  const dot = file.name.lastIndexOf(".");
+  const ext = dot >= 0 ? file.name.slice(dot).toLowerCase() : "";
+  if (
+    !ATTACHMENT_MIME_TYPES.includes(file.type) ||
+    !ATTACHMENT_EXTENSIONS.includes(ext)
+  ) {
+    return "Formato no válido. Aceptamos PDF, JPG y PNG.";
+  }
+  if (file.size > ATTACHMENT_MAX_BYTES) {
+    return `El archivo supera ${ATTACHMENT_MAX_LABEL}. Sube uno más ligero o envíanoslo por WhatsApp.`;
+  }
+  return "";
+}
 const badgeStyle: CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
@@ -45,41 +70,50 @@ export function FabricacionForm({
   const isHero = variant === "hero";
   const pathname = usePathname();
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const attribution = usePersistedAttribution();
+
+  /** Immediate feedback the moment a file is picked. */
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.currentTarget.files?.[0];
+    const problem = file ? validateFile(file) : "";
+    setErrorMsg(problem);
+    setStatus(problem ? "error" : "idle");
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status === "sending") return;
-    setStatus("sending");
     const fd = new FormData(e.currentTarget);
+
+    // Re-check the file before we bother the network.
+    const adjunto = fd.get("adjunto");
+    if (adjunto instanceof File && adjunto.size > 0) {
+      const problem = validateFile(adjunto);
+      if (problem) {
+        setErrorMsg(problem);
+        setStatus("error");
+        return;
+      }
+    }
+
+    setErrorMsg("");
+    setStatus("sending");
     const telefono = String(fd.get("telefono") ?? "");
     const correo = String(fd.get("correo") ?? "");
-    const adjunto = fd.get("adjunto");
-    const adjuntoNombre =
-      adjunto instanceof File && adjunto.size > 0 ? adjunto.name : "";
-    const payload: Record<string, unknown> = {
-      formType: "fabricacion",
-      origen: origenForPath(pathname),
-      website: String(fd.get("website") ?? ""),
-      nombre: String(fd.get("nombre") ?? ""),
-      empresa: String(fd.get("empresa") ?? ""),
-      telefono,
-      correo,
-      describe: String(fd.get("describe") ?? ""),
-      adjuntoNombre,
-      ...Object.fromEntries(PERSIST_KEYS.map((k) => [k, String(fd.get(k) ?? "")])),
-    };
+    // The form's own FormData already carries every field (incl. hidden UTM,
+    // honeypot and the file) — just tag it with the campaign context.
+    fd.append("formType", "fabricacion");
+    fd.append("origen", origenForPath(pathname));
     try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      // No content-type header: the browser sets the multipart boundary.
+      const res = await fetch("/api/lead", { method: "POST", body: fd });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         skipped?: boolean;
       };
       if (!res.ok || !data.ok) {
+        setErrorMsg(GENERIC_ERROR);
         setStatus("error");
         return;
       }
@@ -100,6 +134,7 @@ export function FabricacionForm({
       }
       setStatus("success");
     } catch {
+      setErrorMsg(GENERIC_ERROR);
       setStatus("error");
     }
   }
@@ -252,7 +287,8 @@ export function FabricacionForm({
               name="adjunto"
               className="lc-input"
               type="file"
-              accept=".pdf,.png,.jpg,.jpeg,.webp,.dwg,.dxf,.step,.stp"
+              accept={ATTACHMENT_ACCEPT}
+              onChange={handleFileChange}
               style={{ padding: "10px 12px", cursor: "pointer" }}
             />
             <p
@@ -262,7 +298,9 @@ export function FabricacionForm({
                 marginTop: 6,
               }}
             >
-              Recomendado. Acelera tu cotización.
+              Recomendado. Acelera tu cotización. Aceptamos PDF, JPG y PNG (máx.{" "}
+              {ATTACHMENT_MAX_LABEL}). ¿Tienes un archivo CAD u otro formato?
+              Envíanoslo por WhatsApp.
             </p>
           </div>
 
@@ -276,8 +314,7 @@ export function FabricacionForm({
                 color: "#b91c1c",
               }}
             >
-              No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por
-              WhatsApp.
+              {errorMsg || GENERIC_ERROR}
             </p>
           ) : null}
 
