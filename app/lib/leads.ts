@@ -9,6 +9,10 @@ export const LANDING_ORIGEN: Record<string, string> = {
   "/sellos-hidraulicos-y-neumaticos": "Nacional",
   "/sellos-hidraulicos-guadalajara": "Guadalajara",
   "/sellos-hidraulicos-san-luis-potosi": "San Luis Potosí",
+  "/sellos-hidraulicos-leon": "León",
+  "/sellos-hidraulicos-saltillo": "Saltillo",
+  "/sellos-hidraulicos-queretaro": "Querétaro",
+  "/sellos-hidraulicos-cdmx": "CDMX",
   "/fabricacion-de-sellos-hidraulicos": "Nacional",
 };
 

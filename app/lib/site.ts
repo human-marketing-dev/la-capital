@@ -9,6 +9,14 @@ export const PHONE_GDL_DISPLAY = "(33) 2469-8034";
 export const PHONE_GDL_HREF = "tel:+523324698034";
 export const PHONE_SLP_DISPLAY = "(44) 4476-8767";
 export const PHONE_SLP_HREF = "tel:+524444768767";
+export const PHONE_SALTILLO_DISPLAY = "(844) 430-1250";
+export const PHONE_SALTILLO_HREF = "tel:+528444301250";
+export const PHONE_QRO_DISPLAY = "(442) 732-1312";
+export const PHONE_QRO_HREF = "tel:+524427321312";
+export const PHONE_CDMX_DISPLAY = "(55) 4633-0014";
+export const PHONE_CDMX_HREF = "tel:+525546330014";
+// León: PENDIENTE — no hay sucursal en León todavía. La landing usa el teléfono
+// nacional (PHONE_DISPLAY/PHONE_HREF) hasta que el cliente confirme el local.
 
 export const WHATSAPP_NUMBER = "528115826194";
 export const WHATSAPP_E164 = "+528115826194";
