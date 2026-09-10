@@ -57,6 +57,9 @@ export function LeadForm({ variant = "hero" }: { variant?: "hero" | "cta" }) {
     // contract as the fabricación form, so /api/lead has a single code path.
     fd.append("formType", "lead");
     fd.append("origen", origenForPath(pathname));
+    // Landing slug — routes the lead to its Google Sheets tab and fills the
+    // `Pagina` column. /api/lead treats it as optional.
+    fd.append("pagina", pathname);
     try {
       // No content-type header: the browser sets the multipart boundary.
       const res = await fetch("/api/lead", { method: "POST", body: fd });

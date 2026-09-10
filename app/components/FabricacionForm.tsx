@@ -105,6 +105,9 @@ export function FabricacionForm({
     // honeypot and the file) — just tag it with the campaign context.
     fd.append("formType", "fabricacion");
     fd.append("origen", origenForPath(pathname));
+    // Landing slug — routes the lead to its Google Sheets tab and fills the
+    // `Pagina` column. /api/lead treats it as optional.
+    fd.append("pagina", pathname);
     try {
       // No content-type header: the browser sets the multipart boundary.
       const res = await fetch("/api/lead", { method: "POST", body: fd });

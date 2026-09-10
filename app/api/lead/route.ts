@@ -4,9 +4,12 @@ import {
   ATTACHMENT_MIME_TYPES,
   FIELD_LIMITS,
   FORM_TYPES,
+  LANDING_ORIGEN,
   LANDING_ORIGENES,
   SELLO_OPTIONS,
+  sheetTabFor,
 } from "../../lib/leads";
+import { enviarLeadASheets } from "../../lib/sheets";
 
 /* Single lead endpoint for both forms (LeadForm + FabricacionForm),
    differentiated by `formType`. Both post multipart/form-data (one code path),
@@ -14,7 +17,11 @@ import {
    transactional email via Brevo to the sales inbox(es), attaching the file when
    present. Honeypot + server-side validation + HTML escaping. Never exposes
    Brevo errors to the client. Credentials come from env (BREVO_API_KEY,
-   LEADS_TO_EMAIL). */
+   LEADS_TO_EMAIL).
+
+   The lead is ALSO mirrored to a Google Sheet, in parallel with the email. The
+   email stays the critical path: the client's success/error depends only on
+   Brevo, and a failed spreadsheet write is logged and swallowed. */
 export const runtime = "nodejs";
 
 const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
@@ -41,6 +48,36 @@ function cell(value: string): string {
   return esc(value).replace(/\n/g, "<br>");
 }
 
+/* Brevo send, extracted so it can race the Sheets mirror in Promise.allSettled.
+   Throws on both network failure and a non-2xx reply — the caller maps either to
+   a 502, exactly as before. */
+async function sendBrevo(
+  apiKey: string,
+  payload: Record<string, unknown>,
+): Promise<void> {
+  let res: Response;
+  try {
+    res = await fetch(BREVO_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    console.error("[lead] Brevo request failed", err);
+    throw new Error("brevo-network");
+  }
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    console.error(`[lead] Brevo responded ${res.status}: ${detail}`);
+    throw new Error("brevo-status");
+  }
+}
+
 export async function POST(request: Request) {
   let form: FormData;
   try {
@@ -63,6 +100,13 @@ export async function POST(request: Request) {
   const correo = str(form.get("correo")).trim();
   const sello = str(form.get("sello")).trim();
   const describe = str(form.get("describe")).trim();
+  /* Landing slug, used for the Sheets tab + a `Pagina` column. Deliberately NOT
+     validated into `invalid`: a browser running stale JS posts without it, and
+     that must still deliver the lead (sheetTabFor falls back to formType/origen).
+     Whitelisted against the known landings so an arbitrary string can never
+     create a junk tab. */
+  const paginaRaw = str(form.get("pagina")).trim();
+  const pagina = Object.hasOwn(LANDING_ORIGEN, paginaRaw) ? paginaRaw : "";
 
   const invalid: string[] = [];
   if (!(FORM_TYPES as readonly string[]).includes(formType))
@@ -134,13 +178,20 @@ export async function POST(request: Request) {
     rows.push(["Adjuntó archivo", file ? `Sí — ${file.name}` : "No"]);
   }
 
-  // Attribution — only add rows that carry a value.
+  // Attribution — read once; the email adds only the rows that carry a value,
+  // the Sheets mirror always sends all of them (fixed columns).
+  const utmSource = str(form.get("utm_source")).trim();
+  const utmMedium = str(form.get("utm_medium")).trim();
+  const utmCampaign = str(form.get("utm_campaign")).trim();
+  const gclid = str(form.get("gclid")).trim();
+  const fbclid = str(form.get("fbclid")).trim();
+
   const attribution: Array<[string, string]> = [
-    ["utm_source", str(form.get("utm_source")).trim()],
-    ["utm_medium", str(form.get("utm_medium")).trim()],
-    ["utm_campaign", str(form.get("utm_campaign")).trim()],
-    ["gclid", str(form.get("gclid")).trim()],
-    ["fbclid", str(form.get("fbclid")).trim()],
+    ["utm_source", utmSource],
+    ["utm_medium", utmMedium],
+    ["utm_campaign", utmCampaign],
+    ["gclid", gclid],
+    ["fbclid", fbclid],
   ];
   for (const [label, value] of attribution) {
     if (value) rows.push([label, value]);
@@ -178,25 +229,52 @@ export async function POST(request: Request) {
     payload.attachment = [{ name: file.name, content }];
   }
 
-  let brevoRes: Response;
-  try {
-    brevoRes = await fetch(BREVO_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "api-key": apiKey,
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-  } catch (err) {
-    console.error("[lead] Brevo request failed", err);
-    return Response.json({ ok: false }, { status: 502 });
-  }
+  /* Google Sheets mirror. One tab per landing/form; the KEY ORDER below becomes
+     the column order the first time a tab is written, and the key set is fixed
+     from then on — so every key is always present, "" when empty, and a key is
+     never added conditionally. The two form types write to disjoint tabs, so
+     their column sets can differ. Attachments send only the filename, never the
+     file. `Fecha` is added by the Apps Script itself. */
+  const sheetTab = sheetTabFor(pagina, formType, origen);
+  const sheetFields: Record<string, string> =
+    formType === "fabricacion"
+      ? {
+          Nombre: nombre,
+          Empresa: empresa,
+          Telefono: telefono,
+          Correo: correo,
+          Mensaje: describe,
+          Archivo: file ? file.name : "",
+          Pagina: pagina,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          gclid,
+          fbclid,
+        }
+      : {
+          Nombre: nombre,
+          Empresa: empresa,
+          Telefono: telefono,
+          Correo: correo,
+          Sello: sello,
+          Pagina: pagina,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          gclid,
+          fbclid,
+        };
 
-  if (!brevoRes.ok) {
-    const detail = await brevoRes.text().catch(() => "");
-    console.error(`[lead] Brevo responded ${brevoRes.status}: ${detail}`);
+  /* Both sends race. Only Brevo decides the client's outcome: enviarLeadASheets
+     never throws and logs its own failures, so its settled result is ignored on
+     purpose. */
+  const [brevoResult] = await Promise.allSettled([
+    sendBrevo(apiKey, payload),
+    enviarLeadASheets(sheetTab, sheetFields),
+  ]);
+
+  if (brevoResult.status === "rejected") {
     return Response.json({ ok: false }, { status: 502 });
   }
 
