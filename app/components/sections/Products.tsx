@@ -6,10 +6,10 @@ type Product = {
   body: string;
   image: string;
   objectPosition?: string;
-  /* "cover" llena el marco completo recortando lo que sobra — lo usan las fotos
-     de producto plano, que con "contain" quedaban como una tira delgada. La foto
-     de sellos para vástago se queda en "contain": ya llena el alto y recortarla
-     le cortaría el anillo. */
+  /* Las 5 fotos de producto vienen reencuadradas a 16:10, igual que el marco, con
+     el producto completo tocando las orillas — así que "contain" (el default) las
+     calza exactas sin recortar. "cover" queda disponible por si alguna foto nueva
+     llega con otra proporción y se prefiere llenar el marco recortando. */
   objectFit?: "contain" | "cover";
   /* Margen propio dentro del marco, en px. Encoge la foto sin tocar el archivo
      ni el tamaño de la tarjeta. */
@@ -30,32 +30,27 @@ const PRODUCTS: Product[] = [
   {
     title: "Limpiadores y guardapolvos",
     body: "Protección contra contaminación para alargar la vida del cilindro.",
-    image: "/limpiadores-y-guardapolvos-la-capital.webp",
-    objectFit: "cover",
+    image: "/limpiadores-y-guardapolvos-la-capital-v7.webp",
   },
   {
     title: "Retenes",
     body: "Sellado rotativo en nitrilo o vitón, para baja, media y alta presión.",
-    image: "/retenes-industriales-la-capital.webp",
-    objectFit: "cover",
+    image: "/retenes-industriales-la-capital-v7.webp",
   },
   {
     title: "O-rings y respaldos",
     body: "O-rings (o-ring de goma), tetraseal y respaldos. Estándar AS568 y métrico, en todos los materiales y medidas.",
-    image: "/o-rings-y-respaldos.webp",
-    objectFit: "cover",
+    image: "/o-rings-y-respaldos-v7.webp",
   },
   {
     title: "Guías y bandas de desgaste",
     body: "Soporte y guía para un funcionamiento sin metal contra metal.",
-    image: "/guias-y-bandas-de-desgaste.webp",
-    objectFit: "cover",
+    image: "/guias-y-bandas-de-desgaste-v7.webp",
   },
   {
     title: "Fabricación de sellos a medida (CNC)",
     body: "Fabricamos sellos hidráulicos a medida, especiales o descontinuados, en CNC desde 1 pieza.",
-    image: "/fabricacion-de-sellos-la-capital.webp",
-    objectFit: "cover",
+    image: "/fabricacion-de-sellos-la-capital-v7.webp",
   },
 ];
 
