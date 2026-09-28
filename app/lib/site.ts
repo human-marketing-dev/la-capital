@@ -15,8 +15,8 @@ export const PHONE_QRO_DISPLAY = "(442) 732-1312";
 export const PHONE_QRO_HREF = "tel:+524427321312";
 export const PHONE_CDMX_DISPLAY = "(55) 4633-0014";
 export const PHONE_CDMX_HREF = "tel:+525546330014";
-// León: PENDIENTE — no hay sucursal en León todavía. La landing usa el teléfono
-// nacional (PHONE_DISPLAY/PHONE_HREF) hasta que el cliente confirme el local.
+export const PHONE_LEON_DISPLAY = "(477) 717-0102";
+export const PHONE_LEON_HREF = "tel:+524777170102";
 
 export const WHATSAPP_NUMBER = "528115826194";
 export const WHATSAPP_E164 = "+528115826194";

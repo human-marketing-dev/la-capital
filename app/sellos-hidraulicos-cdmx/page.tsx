@@ -25,12 +25,14 @@ export const metadata: Metadata = {
 /* Campaña · Sucursal CDMX — local variant of the national landing.
    Cubre el Valle de México con dos sucursales (Azcapotzalco + Tlalnepantla),
    igual que Guadalajara: LocalBranches renderiza el grid de 2 tarjetas.
-   PENDIENTE (cliente): confirmar si Tlalnepantla entra en esta campaña, fotos
-   de producto locales y datos de contacto finales. */
+   Datos de Azcapotzalco CONFIRMADOS por el cliente (2026-09-28).
+   PENDIENTE (cliente): confirmar si Tlalnepantla entra en esta campaña (sus
+   datos vienen del flyer de sucursales, no de una confirmación directa) y fotos
+   de producto locales. */
 const CDMX_BRANCHES = [
   {
     name: "La Capital Ciudad de México (Azcapotzalco)",
-    addr: "Av. Cuitláhuac #2927, Col. Obrero Popular, Azcapotzalco, CDMX",
+    addr: "Av. Cuitláhuac #2927, Col. Obrero Popular, Alcaldía de Azcapotzalco, CDMX",
     phone: "(55) 4633-0014",
     whatsapp: "(55) 2178-1267",
     email: "cdmx@la-capital.com.mx",

@@ -6,6 +6,14 @@ type Product = {
   body: string;
   image: string;
   objectPosition?: string;
+  /* "cover" llena el marco completo recortando lo que sobra — lo usan las fotos
+     de producto plano, que con "contain" quedaban como una tira delgada. La foto
+     de sellos para vástago se queda en "contain": ya llena el alto y recortarla
+     le cortaría el anillo. */
+  objectFit?: "contain" | "cover";
+  /* Margen propio dentro del marco, en px. Encoge la foto sin tocar el archivo
+     ni el tamaño de la tarjeta. */
+  padding?: number;
 };
 
 /* Catalog answers the visitor's first question — "¿tienen lo mío?" — so it
@@ -17,35 +25,48 @@ const PRODUCTS: Product[] = [
     title: "Sellos para vástago y émbolo",
     body: "Sellos hidráulicos de alta presión para todo tipo de cilindro, y neumáticos. Kits de sellos para cilindros hidráulicos.",
     image: "/sellos-hidraulicos.webp",
+    padding: 12,
   },
   {
     title: "Limpiadores y guardapolvos",
     body: "Protección contra contaminación para alargar la vida del cilindro.",
-    image: "/sellos-neumaticos.webp",
+    image: "/limpiadores-y-guardapolvos-la-capital.webp",
+    objectFit: "cover",
   },
   {
     title: "Retenes",
     body: "Sellado rotativo en nitrilo o vitón, para baja, media y alta presión.",
-    image: "/retenes-la-capital.webp",
+    image: "/retenes-industriales-la-capital.webp",
+    objectFit: "cover",
   },
   {
     title: "O-rings y respaldos",
     body: "O-rings (o-ring de goma), tetraseal y respaldos. Estándar AS568 y métrico, en todos los materiales y medidas.",
-    image: "/o-rings.webp",
+    image: "/o-rings-y-respaldos.webp",
+    objectFit: "cover",
   },
   {
     title: "Guías y bandas de desgaste",
     body: "Soporte y guía para un funcionamiento sin metal contra metal.",
-    image: "/cordon-nitrilo-70-la-capital.webp",
+    image: "/guias-y-bandas-de-desgaste.webp",
+    objectFit: "cover",
   },
   {
     title: "Fabricación de sellos a medida (CNC)",
     body: "Fabricamos sellos hidráulicos a medida, especiales o descontinuados, en CNC desde 1 pieza.",
-    image: "/La-Capital-Sellos-Hidraulicos-fabricacion-cnc.webp",
+    image: "/fabricacion-de-sellos-la-capital.webp",
+    objectFit: "cover",
   },
 ];
 
-function ProductCard({ title, body, image, objectPosition }: Product) {
+function ProductCard({
+  title,
+  body,
+  image,
+  objectPosition,
+  objectFit,
+  padding,
+}: Product) {
   return (
     <div
       className="lc-card lc-card--hover"
@@ -65,9 +86,9 @@ function ProductCard({ title, body, image, objectPosition }: Product) {
           fill
           sizes="(max-width: 600px) 100vw, (max-width: 920px) 50vw, 33vw"
           style={{
-            objectFit: "contain",
+            objectFit: objectFit ?? "contain",
             objectPosition: objectPosition ?? "center",
-            padding: 18,
+            padding,
           }}
         />
       </div>
