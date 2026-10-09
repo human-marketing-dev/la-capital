@@ -6,10 +6,18 @@ import { Products } from "../components/sections/Products";
 import { Pillars } from "../components/sections/Pillars";
 import { Industries } from "../components/sections/Industries";
 import { ClientLogos } from "../components/sections/ClientLogos";
+import { LocalBranches } from "../components/sections/LocalBranches";
 import { ClosingCta } from "../components/sections/ClosingCta";
 import { SiteFooter } from "../components/sections/SiteFooter";
 import { WhatsAppWidget } from "../components/landing/WhatsAppWidget";
-import { WHATSAPP_E164, PHONE_DISPLAY, PHONE_HREF } from "../lib/site";
+import {
+  PHONE_DISPLAY,
+  PHONE_HREF,
+  WHATSAPP_PUEBLA_CARD,
+  WHATSAPP_PUEBLA_DISPLAY,
+  WHATSAPP_PUEBLA_E164,
+  WHATSAPP_PUEBLA_NUMBER,
+} from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Sellos hidráulicos en Puebla | La Capital — +45,000 en stock",
@@ -20,20 +28,32 @@ export const metadata: Metadata = {
 /* Campaña · Puebla — local variant of the national landing. Misma estructura y
    mismos componentes que las demás ciudades; solo cambia el copy geo-localizado.
 
-   PENDIENTE (cliente) — DATOS DE CONTACTO. No hay sucursal de Puebla en
-   `lib/branches.ts` ni teléfono local, así que por ahora esta landing:
-     1. NO incluye el bloque <LocalBranches /> (no inventamos una dirección), y
-     2. usa el teléfono nacional (PHONE_DISPLAY / PHONE_HREF).
-   Cuando lleguen domicilio + teléfono + WhatsApp + correo locales:
+   WhatsApp: ÚNICA landing con número local (221 354 5309). Widget flotante, CTA
+   de cierre y footer van a ese número; las demás landings siguen en el nacional.
+
+   PENDIENTE (cliente) — DATOS DE LA SUCURSAL. El bloque <LocalBranches /> ya
+   está montado, pero dirección, teléfono y correo son marcadores de posición
+   VISIBLES ("Por confirmar"). NO publicar así. Cuando lleguen los datos:
+     - rellena PUEBLA_BRANCHES (addr real, phone, email),
      - agrega PHONE_PUEBLA_DISPLAY / PHONE_PUEBLA_HREF en `lib/site.ts` y
-       sustituye aquí las 8 apariciones de PHONE_DISPLAY / PHONE_HREF,
-     - agrega PUEBLA_BRANCHES y monta <LocalBranches /> después de <ClientLogos />
-       (copia tal cual el patrón de /sellos-hidraulicos-queretaro),
+       sustituye las 8 apariciones de PHONE_DISPLAY / PHONE_HREF de abajo,
      - cambia el 3er stat a { value: "Sucursal", label: "en Puebla" } y la
        primera coverageLine del footer a "Sucursal en Puebla",
-     - en <ClosingCta> cierra el subtitle con "O visita nuestra sucursal.".
-   El WhatsApp flotante se queda en el número nacional a propósito: es la
-   decisión vigente para TODAS las landings. */
+     - cierra el subtitle de <ClosingCta> con "O visita nuestra sucursal.".
+   Los stats y el footer dicen "Cobertura" y no "Sucursal" justamente porque la
+   dirección todavía no está confirmada. */
+const PUEBLA_BRANCHES = [
+  {
+    name: "La Capital Puebla",
+    // El mapa embebido y el botón "Cómo llegar" buscan este texto en Google
+    // Maps: así centra en la ciudad en vez de mostrar un resultado roto.
+    addr: "Puebla, Pue. — dirección por confirmar",
+    phone: "Por confirmar",
+    whatsapp: WHATSAPP_PUEBLA_CARD,
+    email: "Por confirmar",
+  },
+];
+
 const PUEBLA_STATS = [
   { value: "+45,000", label: "Sellos y empaques en inventario" },
   { value: "+20", suffix: "años", label: "Líderes en el mercado" },
@@ -57,9 +77,15 @@ export default function PueblaLanding() {
         <Pillars />
         <Industries />
         <ClientLogos />
+        <LocalBranches
+          title="Visítanos en Puebla"
+          subtitle="Inventario local y entrega inmediata. Llega por tu sello o pídelo por WhatsApp."
+          branches={PUEBLA_BRANCHES}
+        />
         <ClosingCta
           title="¿Listo para resolver tu sellado en Puebla? Cotiza ahora."
           subtitle="Envíanos tu número de parte, medidas o aplicación y te respondemos con asesoría técnica y tiempo de entrega a Puebla."
+          waNumber={WHATSAPP_PUEBLA_NUMBER}
           phoneDisplay={PHONE_DISPLAY}
           phoneHref={PHONE_HREF}
         />
@@ -70,11 +96,13 @@ export default function PueblaLanding() {
           "Envío nacional e internacional",
           "Visita técnica en sitio",
         ]}
+        waNumber={WHATSAPP_PUEBLA_NUMBER}
+        waDisplay={WHATSAPP_PUEBLA_DISPLAY}
         phoneDisplay={PHONE_DISPLAY}
         phoneHref={PHONE_HREF}
       />
       <WhatsAppWidget
-        phone={WHATSAPP_E164}
+        phone={WHATSAPP_PUEBLA_E164}
         message="Hola, necesito cotizar sellos en Puebla"
         businessName="La Capital"
         logoSrc="/logo-la-capital.png"

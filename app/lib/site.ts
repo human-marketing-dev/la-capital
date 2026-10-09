@@ -20,6 +20,17 @@ export const PHONE_LEON_HREF = "tel:+524777170102";
 // Puebla: PENDIENTE — sin teléfono local todavía. La landing
 // /sellos-hidraulicos-puebla usa PHONE_DISPLAY / PHONE_HREF mientras tanto.
 
+/* EXCEPCIÓN — Puebla es la ÚNICA landing con WhatsApp local. Todas las demás
+   (nacional, GDL, SLP, León, Saltillo, Querétaro, CDMX, fabricación) siguen
+   apuntando al WhatsApp nacional de abajo, que es la decisión vigente. No
+   "uniformes" esto sin preguntar. Lleva clave 52: los tres consumidores
+   (WhatsAppWidget, ClosingCta, SiteFooter) solo quitan los no-dígitos, no
+   agregan país. */
+export const WHATSAPP_PUEBLA_NUMBER = "522213545309";
+export const WHATSAPP_PUEBLA_E164 = "+522213545309";
+export const WHATSAPP_PUEBLA_DISPLAY = "221 354 5309";
+export const WHATSAPP_PUEBLA_CARD = "(221) 354-5309";
+
 export const WHATSAPP_NUMBER = "528115826194";
 export const WHATSAPP_E164 = "+528115826194";
 export const WHATSAPP_DISPLAY = "811 582 6194";
