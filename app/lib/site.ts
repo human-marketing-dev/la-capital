@@ -17,6 +17,8 @@ export const PHONE_CDMX_DISPLAY = "(55) 4633-0014";
 export const PHONE_CDMX_HREF = "tel:+525546330014";
 export const PHONE_LEON_DISPLAY = "(477) 717-0102";
 export const PHONE_LEON_HREF = "tel:+524777170102";
+// Puebla: PENDIENTE — sin teléfono local todavía. La landing
+// /sellos-hidraulicos-puebla usa PHONE_DISPLAY / PHONE_HREF mientras tanto.
 
 export const WHATSAPP_NUMBER = "528115826194";
 export const WHATSAPP_E164 = "+528115826194";

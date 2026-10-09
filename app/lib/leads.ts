@@ -13,6 +13,7 @@ export const LANDING_ORIGEN: Record<string, string> = {
   "/sellos-hidraulicos-saltillo": "Saltillo",
   "/sellos-hidraulicos-queretaro": "Querétaro",
   "/sellos-hidraulicos-cdmx": "CDMX",
+  "/sellos-hidraulicos-puebla": "Puebla",
   "/fabricacion-de-sellos-hidraulicos": "Nacional",
 };
 
@@ -39,6 +40,7 @@ export const SHEET_TAB: Record<string, string> = {
   "/sellos-hidraulicos-saltillo": "Saltillo",
   "/sellos-hidraulicos-queretaro": "Queretaro",
   "/sellos-hidraulicos-cdmx": "CDMX",
+  "/sellos-hidraulicos-puebla": "Puebla",
   "/fabricacion-de-sellos-hidraulicos": "Fabricacion",
 };
 
