@@ -4,6 +4,7 @@ import {
   ATTACHMENT_MIME_TYPES,
   FIELD_LIMITS,
   FORM_TYPES,
+  EXTRA_LEAD_EMAIL,
   LANDING_ORIGEN,
   LANDING_ORIGENES,
   SELLO_OPTIONS,
@@ -150,14 +151,22 @@ export async function POST(request: Request) {
     console.error("[lead] BREVO_API_KEY is not set");
     return Response.json({ ok: false }, { status: 500 });
   }
-  const recipients = (process.env.LEADS_TO_EMAIL ?? "")
+  const central = (process.env.LEADS_TO_EMAIL ?? "")
     .split(",")
     .map((s) => s.trim())
-    .filter(Boolean)
-    .map((email) => ({ email }));
-  if (!recipients.length) {
+    .filter(Boolean);
+  if (!central.length) {
     console.error("[lead] LEADS_TO_EMAIL is not set / empty");
     return Response.json({ ok: false }, { status: 500 });
+  }
+  /* El responsable de la plaza se SUMA a los destinatarios centrales. Dedupe
+     insensible a mayúsculas por si algún día el correo de la plaza ya viene en
+     LEADS_TO_EMAIL — Brevo rechaza destinatarios repetidos. */
+  const extra = EXTRA_LEAD_EMAIL[origen];
+  const vistos = new Set(central.map((e) => e.toLowerCase()));
+  const recipients = central.map((email) => ({ email }));
+  if (extra && !vistos.has(extra.toLowerCase())) {
+    recipients.push({ email: extra });
   }
 
   const tipoLabel = formType === "fabricacion" ? "Fabricación" : "Cotización";

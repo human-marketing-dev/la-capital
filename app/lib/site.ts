@@ -15,6 +15,8 @@ export const PHONE_QRO_DISPLAY = "(442) 732-1312";
 export const PHONE_QRO_HREF = "tel:+524427321312";
 export const PHONE_CDMX_DISPLAY = "(55) 4633-0014";
 export const PHONE_CDMX_HREF = "tel:+525546330014";
+export const PHONE_AGS_DISPLAY = "(449) 913-4535";
+export const PHONE_AGS_HREF = "tel:+524499134535";
 export const PHONE_LEON_DISPLAY = "(477) 717-0102";
 export const PHONE_LEON_HREF = "tel:+524777170102";
 // Puebla: PENDIENTE — sin teléfono local todavía. La landing

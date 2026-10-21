@@ -14,6 +14,7 @@ export const LANDING_ORIGEN: Record<string, string> = {
   "/sellos-hidraulicos-queretaro": "Querétaro",
   "/sellos-hidraulicos-cdmx": "CDMX",
   "/sellos-hidraulicos-puebla": "Puebla",
+  "/sellos-hidraulicos-aguascalientes": "Aguascalientes",
   "/fabricacion-de-sellos-hidraulicos": "Nacional",
 };
 
@@ -41,10 +42,32 @@ export const SHEET_TAB: Record<string, string> = {
   "/sellos-hidraulicos-queretaro": "Queretaro",
   "/sellos-hidraulicos-cdmx": "CDMX",
   "/sellos-hidraulicos-puebla": "Puebla",
+  "/sellos-hidraulicos-aguascalientes": "Aguascalientes",
   "/fabricacion-de-sellos-hidraulicos": "Fabricacion",
 };
 
 export const UNCLASSIFIED_TAB = "Sin clasificar";
+
+/* Responsable de cada plaza. Su correo se SUMA a LEADS_TO_EMAIL (no lo
+   reemplaza): el lead de Querétaro llega a francisco.michel@ y además a los
+   destinatarios centrales. Lo usa /api/lead.
+
+   Va indexado por la etiqueta `origen` y NO por la ruta, a propósito: `origen`
+   siempre llega y el servidor ya lo valida contra LANDING_ORIGENES, mientras que
+   `pagina` es opcional (un navegador con JS viejo la manda vacía) — y un lead no
+   debe perder a su responsable por eso.
+
+   Son correos de contacto comercial, los mismos que ya se muestran en la tarjeta
+   de sucursal de cada landing, así que no son secretos y viven en el código.
+   Las plazas que no aparecen aquí (Nacional, Guadalajara, San Luis Potosí, CDMX
+   y fabricación) usan solo los destinatarios centrales. */
+export const EXTRA_LEAD_EMAIL: Record<string, string> = {
+  "León": "victor.segovia@la-capital.com.mx",
+  "Saltillo": "jonathan.orozco@la-capital.com.mx",
+  "Querétaro": "francisco.michel@la-capital.com.mx",
+  "Puebla": "alejandro.russi@la-capital.com.mx",
+  "Aguascalientes": "aguascalientes@la-capital.com.mx",
+};
 
 /** Strip diacritics so an `origen` label matches its accent-free tab name
     ("San Luis Potosí" → "San Luis Potosi"). Every origen in LANDING_ORIGEN

@@ -32,7 +32,7 @@ const QRO_BRANCHES = [
     addr: "Epigmenio González #1009, Los Molinos, Santiago de Querétaro, Qro.",
     phone: "(442) 732-1312",
     whatsapp: "(446) 120-0343",
-    email: "queretaro@la-capital.com.mx",
+    email: "francisco.michel@la-capital.com.mx",
   },
 ];
 

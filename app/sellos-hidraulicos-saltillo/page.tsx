@@ -32,7 +32,7 @@ const SALTILLO_BRANCHES = [
     addr: "Blvd. Fundadores No. 2615 Local A y B, Avícola, 25015 Saltillo, Coah.",
     phone: "(844) 430-1250",
     whatsapp: "(844) 676-3921",
-    email: "saltillo@la-capital.com.mx",
+    email: "jonathan.orozco@la-capital.com.mx",
   },
 ];
 

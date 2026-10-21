@@ -62,7 +62,7 @@ export const BRANCHES: Branch[] = [
     name: "Aguascalientes",
     addr: "Convención de 1914 Sur #1017, Fracc. Santa Elena, Ags.",
     phone: "(449) 913-4535",
-    whatsapp: "4492411102",
+    whatsapp: "4494616213",
     email: "aguascalientes@la-capital.com.mx",
     x: 48.5,
     y: 56.5,

@@ -25,8 +25,6 @@ export const metadata: Metadata = {
 /* Campaña · Sucursal León — local variant of the national landing.
    One sucursal (LocalBranches renders the wide single-branch layout). Same
    structure/components; geo-localized copy + Google Maps "Cómo llegar".
-   El teléfono de la sucursal también recibe WhatsApp, de ahí el mismo número en
-   las dos líneas de la tarjeta.
    NOTA: esta sucursal NO está en `lib/branches.ts`, así que no aparece en el
    mapa/slider de cobertura nacional (que sigue diciendo "12 sucursales").
    PENDIENTE (cliente): fotos de producto locales. */
@@ -35,8 +33,8 @@ const LEON_BRANCHES = [
     name: "La Capital León (Héroes de Chapultepec)",
     addr: "Blvrd Miguel Hidalgo 915, Héroes de Chapultepec, 37190 León de los Aldama, Gto.",
     phone: "(477) 717-0102",
-    whatsapp: "(477) 717-0102",
-    email: "leon@la-capital.com.mx",
+    whatsapp: "(473) 165-0897",
+    email: "victor.segovia@la-capital.com.mx",
   },
 ];
 

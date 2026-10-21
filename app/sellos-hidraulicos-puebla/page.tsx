@@ -50,7 +50,7 @@ const PUEBLA_BRANCHES = [
     addr: "Puebla, Pue. — dirección por confirmar",
     phone: "Por confirmar",
     whatsapp: WHATSAPP_PUEBLA_CARD,
-    email: "Por confirmar",
+    email: "alejandro.russi@la-capital.com.mx",
   },
 ];
 
